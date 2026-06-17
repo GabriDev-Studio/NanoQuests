@@ -1,0 +1,35 @@
+messages:
+  quest_complete: "&a&l[Квесты] &fКвест &a{quest} &fвыполнен! Лови &aнаграду"
+  quest_progress: "&8[&aКвесты&8] &f{quest}&8: &e{current}&7/&e{target}"
+  no_perm: "&c[✗] Нет прав."
+
+# Команда выдачи кита через консоль
+# EssentialsX: "kit give {player} {kit}"
+# CMI:         "cmi kit {player} {kit}"
+kit_command: "kit give {player} {kit}"
+
+categories:
+  COMBAT:
+    display: "&c☠ Боец"
+    icon: DIAMOND_SWORD
+    slot: 20
+    color: RED_STAINED_GLASS_PANE
+    command: "/questcombat"
+  MINER:
+    display: "&7⛏ Шахтёр"
+    icon: DIAMOND_PICKAXE
+    slot: 22
+    color: GRAY_STAINED_GLASS_PANE
+    command: "/questmine"
+  FISHER:
+    display: "&b* Рыбак"
+    icon: FISHING_ROD
+    slot: 24
+    color: LIGHT_BLUE_STAINED_GLASS_PANE
+    command: "/questfish"
+  LUMBERJACK:
+    display: "&6▲ Лесник"
+    icon: OAK_LOG
+    slot: 31
+    color: ORANGE_STAINED_GLASS_PANE
+    command: "/questwood"

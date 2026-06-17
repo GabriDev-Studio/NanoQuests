@@ -1,0 +1,1962 @@
+# ==========================================================================
+#  NanoQuests — quests.yml
+#  Пакет: org.nanodev.nanoquests
+# ==========================================================================
+#
+#  КАК УСТРОЕН ИНВЕНТАРЬ (54 слота, 6 строк):
+#
+#   [ 0][ 1][ 2][ 3][ 4][ 5][ 6][ 7][ 8]   ← граница (закрашена)
+#   [ 9][10][11][12][13][14][15][16][17]   ← строка 2 (9=граница, 17=граница)
+#   [18][19][20][21][22][23][24][25][26]   ← строка 3
+#   [27][28][29][30][31][32][33][34][35]   ← строка 4
+#   [36][37][38][39][40][41][42][43][44]   ← строка 5
+#   [45][46][47][48][49][50][51][52][53]   ← граница (49 = кнопка Назад)
+#
+#  Доступные слоты для квестов (не граница, не кнопки):
+#  10-16, 19-25, 28-34, 37-43
+#
+#  ПОЛЯ КВЕСТА:
+#  ┌─────────────────────────────────────────────────────────┐
+#  │ display_name  — название квеста в меню                  │
+#  │ description   — описание задачи                         │
+#  │ icon          — иконка материал (Material)              │
+#  │ category      — COMBAT | MINER | FISHER | LUMBERJACK    │
+#  │ order         — порядковый номер в категории (1..N)     │
+#  │ slot          — слот в меню (10-43, кроме границы)      │
+#  │                 -1 или убери поле = авто                │
+#  │ requires      — id квеста, который нужно выполнить      │
+#  │                 перед этим. Пусто = нет требования      │
+#  │ objective_type:                                         │
+#  │   KILL_MOB    → mob: ИМЯ_МОБА                           │
+#  │   MINE_BLOCK  → block: ИМЯ_БЛОКА                        │
+#  │   CRAFT_ITEM  → item: ИМЯ_ПРЕДМЕТА                      │
+#  │   COLLECT_ITEM→ item: ИМЯ_ПРЕДМЕТА                      │
+#  │   TRAVEL      → amount: блоков                          │
+#  │   FISH        → amount: рыб                             │
+#  │ amount        — сколько нужно                           │
+#  │ reward_kit    — имя кита (/kit give <player> <kit>)     │
+#  │ reward_display— список строк в лоре иконки              │
+#  └─────────────────────────────────────────────────────────┘
+#
+#  ЦЕПОЧКИ (requires):
+#  Если квест имеет requires: id_другого_квеста — он НЕ отображается
+#  в меню пока тот квест не выполнен. Прогресс тоже не идёт.
+#  Это создаёт линейные цепочки: квест1 → квест2 → квест3 ...
+#
+#  ДОБАВЛЕН КЛЮЧ order — порядковый номер внутри категории.
+#  Используется для сортировки и отображения прогресса.
+#
+# ==========================================================================
+
+quests:
+
+# ==========================================================================
+# ☠  ЛИНИЯ: БОЕЦ (category: COMBAT) — 28 квестов
+# ==========================================================================
+#
+#  Слоты: 10-16, 19-25, 28-34, 37-43
+#  Цепочка: каждый следующий требует предыдущий
+# ==========================================================================
+
+  combat_zombie_slayer:
+    display_name: "&c☠ Мясник мертвецов"
+    description: "&7Уничтожь 50 зомби. С этого всё начинается."
+    icon: ZOMBIE_HEAD
+    category: COMBAT
+    order: 1
+    slot: 10
+    requires: ""
+    objective_type: KILL_MOB
+    mob: ZOMBIE
+    amount: 50
+    reward_kit: combat_zombie_slayer
+    reward_display:
+      - "&c&l► &fАлмазный меч &7(Острота IV, Огонь II)"
+      - "&c&l► &f32x Зелье урона II"
+      - "&c&l► &f3x Золотое яблоко"
+
+  combat_skeleton_hunter:
+    display_name: "&f✦ Костяной охотник"
+    description: "&7Убей 40 скелетов. Они думают что меткие."
+    icon: SKELETON_SKULL
+    category: COMBAT
+    order: 2
+    slot: 11
+    requires: "combat_zombie_slayer"
+    objective_type: KILL_MOB
+    mob: SKELETON
+    amount: 40
+    reward_kit: combat_skeleton_hunter
+    reward_display:
+      - "&c&l► &fАлмазный лук &7(Сила V, Бесконечность)"
+      - "&c&l► &f64x Стрела"
+      - "&c&l► &f16x Зелье скорости II"
+
+  combat_creeper_boom:
+    display_name: "&a💥 Повелитель взрывов"
+    description: "&730 криперов. Крипер — лучший друг грифера."
+    icon: CREEPER_HEAD
+    category: COMBAT
+    order: 3
+    slot: 12
+    requires: "combat_skeleton_hunter"
+    objective_type: KILL_MOB
+    mob: CREEPER
+    amount: 30
+    reward_kit: combat_creeper_boom
+    reward_display:
+      - "&c&l► &f32x Порох"
+      - "&c&l► &f16x TNT"
+      - "&c&l► &f16x Зелье замедления II"
+
+  combat_spider_web:
+    display_name: "&2⚔ Охотник на пауков"
+    description: "&7Убей 40 пауков. Паутина пригодится."
+    icon: SPIDER_EYE
+    category: COMBAT
+    order: 4
+    slot: 13
+    requires: "combat_creeper_boom"
+    objective_type: KILL_MOB
+    mob: SPIDER
+    amount: 40
+    reward_kit: combat_spider_web
+    reward_display:
+      - "&c&l► &f32x Паутина"
+      - "&c&l► &f16x Глаз паука"
+      - "&c&l► &f1x Кираса &7(Защита IV, Шипы III)"
+
+  combat_enderman_void:
+    display_name: "&5★ Пожиратель пустоты"
+    description: "&725 эндерменов. Смотри им в глаза."
+    icon: ENDER_PEARL
+    category: COMBAT
+    order: 5
+    slot: 14
+    requires: "combat_spider_web"
+    objective_type: KILL_MOB
+    mob: ENDERMAN
+    amount: 25
+    reward_kit: combat_enderman_void
+    reward_display:
+      - "&c&l► &f16x Жемчуг Края"
+      - "&c&l► &f1x Ботинки &7(Перо падения IV)"
+      - "&c&l► &f5x Зелье невидимости &7(8 мин)"
+
+  combat_blaze_hell:
+    display_name: "&6🔥 Адский пожарный"
+    description: "&720 ифритов. Ад — твоя территория."
+    icon: BLAZE_ROD
+    category: COMBAT
+    order: 6
+    slot: 15
+    requires: "combat_enderman_void"
+    objective_type: KILL_MOB
+    mob: BLAZE
+    amount: 20
+    reward_kit: combat_blaze_hell
+    reward_display:
+      - "&c&l► &f32x Стержень ифрита"
+      - "&c&l► &f1x Кирка &7(Эффективность V, Починка)"
+      - "&c&l► &f8x Огненный шар"
+
+  combat_witch_brew:
+    display_name: "&d[1] Охотник на ведьм"
+    description: "&715 ведьм. У неё зелья — у тебя меч."
+    icon: GLASS_BOTTLE
+    category: COMBAT
+    order: 7
+    slot: 16
+    requires: "combat_blaze_hell"
+    objective_type: KILL_MOB
+    mob: WITCH
+    amount: 15
+    reward_kit: combat_witch_brew
+    reward_display:
+      - "&c&l► &f16x Зелье регенерации II"
+      - "&c&l► &f16x Зелье силы II"
+      - "&c&l► &f1x Шлем &7(Защита IV, Дыхание III)"
+
+  combat_wither_skull:
+    display_name: "&8[-] Дитя Иссушителя"
+    description: "&710 иссушитель-скелетов. Крепость Нижнего мира."
+    icon: WITHER_SKELETON_SKULL
+    category: COMBAT
+    order: 8
+    slot: 19
+    requires: "combat_witch_brew"
+    objective_type: KILL_MOB
+    mob: WITHER_SKELETON
+    amount: 10
+    reward_kit: combat_wither_skull
+    reward_display:
+      - "&c&l► &f3x Череп иссушителя"
+      - "&c&l► &f1x Меч &7(Острота V, Зачарование V, Огонь II)"
+      - "&c&l► &f8x Зелье иссушения II"
+      - "&c&l► &f32x Золотое яблоко"
+
+  combat_zombified_piglin:
+    display_name: "&6⚡ Кровавый свин"
+    description: "&7Убей 30 зомби-свиней. Они злы на всех."
+    icon: GOLDEN_SWORD
+    category: COMBAT
+    order: 9
+    slot: 20
+    requires: "combat_wither_skull"
+    objective_type: KILL_MOB
+    mob: ZOMBIFIED_PIGLIN
+    amount: 30
+    reward_kit: combat_zombified_piglin
+    reward_display:
+      - "&c&l► &f1x Алмазный меч &7(Острота IV, Починка)"
+      - "&c&l► &f16x Золотой слиток"
+      - "&c&l► &f8x Зелье силы II"
+
+  combat_ghast:
+    display_name: "&7[...] Охотник на гастов"
+    description: "&7Убей 3 гаста. Их слёзы — редкая добыча."
+    icon: GHAST_TEAR
+    category: COMBAT
+    order: 10
+    slot: 21
+    requires: "combat_zombified_piglin"
+    objective_type: KILL_MOB
+    mob: GHAST
+    amount: 3
+    reward_kit: combat_ghast
+    reward_display:
+      - "&c&l► &f16x Слеза гаста"
+      - "&c&l► &f1x Лук &7(Сила V, Отдача II)"
+      - "&c&l► &f8x Зелье регенерации II"
+
+  combat_shulker:
+    display_name: "&d◇ Укротитель шалкеров"
+    description: "&7Убей 8 шалкеров. Их панцири — броня."
+    icon: SHULKER_SHELL
+    category: COMBAT
+    order: 11
+    slot: 22
+    requires: "combat_ghast"
+    objective_type: KILL_MOB
+    mob: SHULKER
+    amount: 8
+    reward_kit: combat_shulker
+    reward_display:
+      - "&c&l► &f8x Панцирь шалкера"
+      - "&c&l► &f1x Кираса &7(Защита IV, Шипы III, Починка)"
+      - "&c&l► &f8x Зелье левитации"
+
+  combat_strider:
+    display_name: "&c◈ Всадник страйдеров"
+    description: "&7Убей 15 страйдеров. Они не боятся лавы."
+    icon: WARPED_FUNGUS_ON_A_STICK
+    category: COMBAT
+    order: 12
+    slot: 23
+    requires: "combat_shulker"
+    objective_type: KILL_MOB
+    mob: STRIDER
+    amount: 15
+    reward_kit: combat_strider
+    reward_display:
+      - "&c&l► &f1x Алмазный меч &7(Острота V, Огонь II)"
+      - "&c&l► &f16x Зелье огнестойкости"
+      - "&c&l► &f8x Золотое яблоко"
+
+  combat_hoglin:
+    display_name: "&c[+] Охотник на хоглинов"
+    description: "&7Убей 20 хоглинов. Их мясо питательно."
+    icon: HOGLIN_SPAWN_EGG
+    category: COMBAT
+    order: 13
+    slot: 24
+    requires: "combat_strider"
+    objective_type: KILL_MOB
+    mob: HOGLIN
+    amount: 20
+    reward_kit: combat_hoglin
+    reward_display:
+      - "&c&l► &f16x Сырая свинина"
+      - "&c&l► &f1x Топор &7(Острота IV, Эффективность IV)"
+      - "&c&l► &f8x Зелье силы II"
+
+  combat_piglin_brute:
+    display_name: "&4⚔ Палач пиглинов"
+    description: "&7Убей 10 брутальных пиглинов. Они не договорятся."
+    icon: GOLDEN_AXE
+    category: COMBAT
+    order: 14
+    slot: 25
+    requires: "combat_hoglin"
+    objective_type: KILL_MOB
+    mob: PIGLIN_BRUTE
+    amount: 10
+    reward_kit: combat_piglin_brute
+    reward_display:
+      - "&c&l► &f1x Незеритовый меч &7(Острота V, Починка)"
+      - "&c&l► &f16x Золотой слиток"
+      - "&c&l► &f8x Зелье регенерации II"
+
+  combat_magma_cube:
+    display_name: "&6✦ Истребитель магмы"
+    description: "&7Убей 30 магма-кубов. Горячо, но терпимо."
+    icon: MAGMA_CREAM
+    category: COMBAT
+    order: 15
+    slot: 28
+    requires: "combat_piglin_brute"
+    objective_type: KILL_MOB
+    mob: MAGMA_CUBE
+    amount: 30
+    reward_kit: combat_magma_cube
+    reward_display:
+      - "&c&l► &f16x Крем магмы"
+      - "&c&l► &f1x Кираса &7(Защита IV, Огнестойкость)"
+      - "&c&l► &f8x Зелье огнестойкости"
+
+  combat_slime:
+    display_name: "&a⬡ Пожиратель слизней"
+    description: "&7Убей 40 слизней. Липкая смерть."
+    icon: SLIME_BALL
+    category: COMBAT
+    order: 16
+    slot: 29
+    requires: "combat_magma_cube"
+    objective_type: KILL_MOB
+    mob: SLIME
+    amount: 40
+    reward_kit: combat_slime
+    reward_display:
+      - "&c&l► &f32x Слизь"
+      - "&c&l► &f1x Ботинки &7(Перо падения IV, Защита III)"
+      - "&c&l► &f8x Зелье скорости II"
+
+  combat_silverfish:
+    display_name: "&7◈ Уничтожитель чешуйниц"
+    description: "&7Убей 25 чешуйниц. Они везде, где камень."
+    icon: SILVERFISH_SPAWN_EGG
+    category: COMBAT
+    order: 17
+    slot: 30
+    requires: "combat_slime"
+    objective_type: KILL_MOB
+    mob: SILVERFISH
+    amount: 25
+    reward_kit: combat_silverfish
+    reward_display:
+      - "&c&l► &f1x Кирка &7(Шёлковое касание, Эффективность V)"
+      - "&c&l► &f16x Зелье невидимости &7(8 мин)"
+      - "&c&l► &f8x Золотое яблоко"
+
+  combat_endermite:
+    display_name: "&5✧ Ловец эндермитов"
+    description: "&7Убей 20 эндермитов. Они приходят с жемчугом."
+    icon: ENDERMITE_SPAWN_EGG
+    category: COMBAT
+    order: 18
+    slot: 31
+    requires: "combat_silverfish"
+    objective_type: KILL_MOB
+    mob: ENDERMITE
+    amount: 20
+    reward_kit: combat_endermite
+    reward_display:
+      - "&c&l► &f16x Жемчуг Края"
+      - "&c&l► &f1x Шлем &7(Защита IV, Против взрывов)"
+      - "&c&l► &f8x Зелье силы II"
+
+  combat_guardian:
+    display_name: "&3⚡ Страж океана"
+    description: "&7Убей 3 стражника. Их шипы — оружие."
+    icon: PRISMARINE_CRYSTALS
+    category: COMBAT
+    order: 19
+    slot: 32
+    requires: "combat_endermite"
+    objective_type: KILL_MOB
+    mob: GUARDIAN
+    amount: 3
+    reward_kit: combat_guardian
+    reward_display:
+      - "&c&l► &f16x Кристалл призмарина"
+      - "&c&l► &f1x Тризуб &7(Лояльность III, Импульс I)"
+      - "&c&l► &f8x Зелье водного дыхания"
+
+  combat_elder_guardian:
+    display_name: "&1◇ Древний страж"
+    description: "&7Убей 1-го древнего стража. Его глаз — артефакт."
+    icon: ELDER_GUARDIAN_SPAWN_EGG
+    category: COMBAT
+    order: 20
+    slot: 33
+    requires: "combat_guardian"
+    objective_type: KILL_MOB
+    mob: ELDER_GUARDIAN
+    amount: 1
+    reward_kit: combat_elder_guardian
+    reward_display:
+      - "&c&l► &f1x Глаз древнего стража"
+      - "&c&l► &f1x Кираса &7(Защита IV, Дыхание III, Починка)"
+      - "&c&l► &f16x Золотое яблоко"
+
+  combat_skeleton_again:
+    display_name: "&8◈ Скелетный Ад"
+    description: "&7Убей 150 скелетов. Да-да, снова.."
+    icon: SKELETON_SPAWN_EGG
+    category: COMBAT
+    order: 21
+    slot: 34
+    requires: "combat_elder_guardian"
+    objective_type: KILL_MOB
+    mob: SKELETON
+    amount: 150
+    reward_kit: combat_skeleton_again
+    reward_display:
+      - "&c&l► &f1x Алмазный лук &7(Сила V, Отдача III)"
+      - "&c&l► &f8x Зелье скорости II"
+
+  combat_zombie_again:
+    display_name: "&2◈ Прям как Зомби"
+    description: "&7Убей 250 зомби. Упс .. :)"
+    icon: ZOMBIE_SPAWN_EGG
+    category: COMBAT
+    order: 22
+    slot: 37
+    requires: "combat_skeleton_again"
+    objective_type: KILL_MOB
+    mob: ZOMBIE_HORSE
+    amount: 10
+    reward_kit: combat_zombie_again
+    reward_display:
+      - "&c&l► &f1x Алмазный меч &7(Острота V, Починка)"
+      - "&c&l► &f16x Зелье урона II"
+      - "&c&l► &f8x Золотое яблоко"
+
+  combat_phantom:
+    display_name: "&7[/] Охотник на фантомов"
+    description: "&7Убей 20 фантомов. Они боятся кроватей."
+    icon: PHANTOM_MEMBRANE
+    category: COMBAT
+    order: 23
+    slot: 38
+    requires: "combat_zombie_again"
+    objective_type: KILL_MOB
+    mob: PHANTOM
+    amount: 20
+    reward_kit: combat_phantom
+    reward_display:
+      - "&c&l► &f16x Перепонка фантома"
+      - "&c&l► &f1x Элитры &7(Починка)"
+      - "&c&l► &f8x Зелье медленного падения"
+
+  combat_drowned:
+    display_name: "&3■ Утопленник"
+    description: "&7Убей 15 утопленников. Они приносят медь."
+    icon: DROWNED_SPAWN_EGG
+    category: COMBAT
+    order: 24
+    slot: 39
+    requires: "combat_phantom"
+    objective_type: KILL_MOB
+    mob: DROWNED
+    amount: 15
+    reward_kit: combat_drowned
+    reward_display:
+      - "&c&l► &f16x Медный слиток"
+      - "&c&l► &f1x Тризуб &7(Лояльность III)"
+      - "&c&l► &f8x Зелье водного дыхания"
+
+  combat_husk:
+    display_name: "&e◈ Пустынный гулак"
+    description: "&7Убей 15 гулаков. Узнаёшь пустыного монстра?"
+    icon: HUSK_SPAWN_EGG
+    category: COMBAT
+    order: 25
+    slot: 40
+    requires: "combat_drowned"
+    objective_type: KILL_MOB
+    mob: HUSK
+    amount: 15
+    reward_kit: combat_husk
+    reward_display:
+      - "&c&l► &f1x Алмазный меч &7(Острота IV, Починка)"
+      - "&c&l► &f16x Зелье силы II"
+      - "&c&l► &f8x Золотое яблоко"
+
+  combat_stray:
+    display_name: "&b◈ Морозный стрелок"
+    description: "&7Убей 25 стрелков. Их стрелы замедляют."
+    icon: STRAY_SPAWN_EGG
+    category: COMBAT
+    order: 26
+    slot: 41
+    requires: "combat_husk"
+    objective_type: KILL_MOB
+    mob: STRAY
+    amount: 25
+    reward_kit: combat_stray
+    reward_display:
+      - "&c&l► &f1x Лук &7(Сила V, Бесконечность, Починка)"
+      - "&c&l► &f16x Стрела замедления"
+      - "&c&l► &f8x Зелье замедления II"
+
+  combat_vex:
+    display_name: "&5⚡ Дух Векса"
+    description: "&7Убей 1 векса. Он неуловим."
+    icon: VEX_SPAWN_EGG
+    category: COMBAT
+    order: 27
+    slot: 42
+    requires: "combat_stray"
+    objective_type: KILL_MOB
+    mob: VEX
+    amount: 1
+    reward_kit: combat_vex
+    reward_display:
+      - "&c&l► &f1x Алмазный меч &7(Острота V, Починка, Зачарование V)"
+      - "&c&l► &f8x Зелье силы II"
+      - "&c&l► &f8x Золотое яблоко"
+
+  combat_evoker:
+    display_name: "&d✦ Победитель вызвателей"
+    description: "&7Убей 3 вызвателя. Они призывают тьму."
+    icon: EVOKER_SPAWN_EGG
+    category: COMBAT
+    order: 28
+    slot: 43
+    requires: "combat_vex"
+    objective_type: KILL_MOB
+    mob: EVOKER
+    amount: 3
+    reward_kit: combat_evoker
+    reward_display:
+      - "&c&l► &f1x Тотема бессмертия"
+      - "&c&l► &f1x Незеритовый меч &7(Острота V, Починка, Зачарование V)"
+      - "&c&l► &f16x Золотое яблоко"
+      - "&c&l► &f8x Зелье регенерации II"
+
+# ==========================================================================
+# ⛏  ЛИНИЯ: ШАХТЁР (category: MINER) — 28 квестов
+# ==========================================================================
+#
+#  Слоты: 10-16, 19-25, 28-34, 37-43
+#  Цепочка: каждый следующий требует предыдущий
+# ==========================================================================
+
+  miner_stone:
+    display_name: "&7◇ Каменотёс"
+    description: "&7Добудь 512 камня. Основа любой базы."
+    icon: STONE
+    category: MINER
+    order: 1
+    slot: 10
+    requires: ""
+    objective_type: MINE_BLOCK
+    block: STONE
+    amount: 512
+    reward_kit: miner_stone
+    reward_display:
+      - "&7&l► &f256x Гладкий камень"
+      - "&7&l► &f1x Кирка &7(Эффективность IV)"
+      - "&7&l► &f16x Железный слиток"
+
+  miner_coal:
+    display_name: "&8▪ Угольщик"
+    description: "&7Добудь 200 угольных руд. Уголь нужен везде."
+    icon: COAL_ORE
+    category: MINER
+    order: 2
+    slot: 11
+    requires: "miner_stone"
+    objective_type: MINE_BLOCK
+    block: COAL_ORE
+    amount: 200
+    reward_kit: miner_coal
+    reward_display:
+      - "&7&l► &f128x Уголь"
+      - "&7&l► &f64x Факел"
+      - "&7&l► &f1x Кирка &7(Эффективность IV, Удача II)"
+
+  miner_iron:
+    display_name: "&f▸ Железный рудокоп"
+    description: "&7Добудь 128 железных руд. Железо — кровь инвентаря."
+    icon: IRON_ORE
+    category: MINER
+    order: 3
+    slot: 12
+    requires: "miner_coal"
+    objective_type: MINE_BLOCK
+    block: IRON_ORE
+    amount: 128
+    reward_kit: miner_iron
+    reward_display:
+      - "&7&l► &f64x Железный слиток"
+      - "&7&l► &f1x Полный железный сет &7(Защита II)"
+
+  miner_gold:
+    display_name: "&6✧ Золотоискатель"
+    description: "&7Добудь 64 золотых руды. Золото — для зачарований."
+    icon: GOLD_ORE
+    category: MINER
+    order: 4
+    slot: 13
+    requires: "miner_iron"
+    objective_type: MINE_BLOCK
+    block: GOLD_ORE
+    amount: 64
+    reward_kit: miner_gold
+    reward_display:
+      - "&6&l► &f32x Золотой слиток"
+      - "&6&l► &f16x Золотое яблоко"
+      - "&6&l► &f1x Ботинки &7(Перо падения IV, Защита III)"
+
+  miner_redstone:
+    display_name: "&c⚡ Красный электрик"
+    description: "&7Добудь 128 редстоун-руд. Для ловушек."
+    icon: REDSTONE_ORE
+    category: MINER
+    order: 5
+    slot: 14
+    requires: "miner_gold"
+    objective_type: MINE_BLOCK
+    block: REDSTONE_ORE
+    amount: 128
+    reward_kit: miner_redstone
+    reward_display:
+      - "&c&l► &f128x Редстоун"
+      - "&c&l► &f16x Диспенсер"
+      - "&c&l► &f8x TNT"
+
+  miner_lapis:
+    display_name: "&9◉ Синий глаз"
+    description: "&7Добудь 48 лазурит-руд. Нужен для зачарований."
+    icon: LAPIS_ORE
+    category: MINER
+    order: 6
+    slot: 15
+    requires: "miner_redstone"
+    objective_type: MINE_BLOCK
+    block: LAPIS_ORE
+    amount: 48
+    reward_kit: miner_lapis
+    reward_display:
+      - "&9&l► &f64x Лазурит"
+      - "&9&l► &f1x Стол зачарований"
+      - "&9&l► &f5x Книга зачарований"
+
+  miner_diamond:
+    display_name: "&b✦ Алмазная лихорадка"
+    description: "&7Добудь 32 алмазных руды. Лучшее из недр."
+    icon: DIAMOND_ORE
+    category: MINER
+    order: 7
+    slot: 16
+    requires: "miner_lapis"
+    objective_type: MINE_BLOCK
+    block: DIAMOND_ORE
+    amount: 32
+    reward_kit: miner_diamond
+    reward_display:
+      - "&b&l► &f32x Алмаз"
+      - "&b&l► &f1x Кирка &7(Шёлковое касание, Эффективность V)"
+      - "&b&l► &f1x Кираса &7(Защита IV)"
+
+  miner_obsidian:
+    display_name: "&5✶ Пожиратель обсидиана"
+    description: "&7Добудь 128 обсидиана. Броня для твоей базы."
+    icon: OBSIDIAN
+    category: MINER
+    order: 8
+    slot: 19
+    requires: "miner_diamond"
+    objective_type: MINE_BLOCK
+    block: OBSIDIAN
+    amount: 128
+    reward_kit: miner_obsidian
+    reward_display:
+      - "&5&l► &f128x Обсидиан"
+      - "&5&l► &f1x Кирка &7(Эффективность V, Прочность III, Починка)"
+      - "&5&l► &f4x Жемчуг Края"
+      - "&5&l► &f16x Золотое яблоко"
+
+  miner_emerald:
+    display_name: "&a✦ Изумрудный король"
+    description: "&7Добудь 32 изумрудных руды. Богатство жителей."
+    icon: EMERALD_ORE
+    category: MINER
+    order: 9
+    slot: 20
+    requires: "miner_obsidian"
+    objective_type: MINE_BLOCK
+    block: EMERALD_ORE
+    amount: 32
+    reward_kit: miner_emerald
+    reward_display:
+      - "&a&l► &f32x Изумруд"
+      - "&a&l► &f1x Кирка &7(Удача III, Эффективность IV)"
+      - "&a&l► &f16x Золотое яблоко"
+
+  miner_nether_quartz:
+    display_name: "&f◈ Кварцевый мастер"
+    description: "&7Добудь 64 кварцевой руды. Для сравнения."
+    icon: NETHER_QUARTZ_ORE
+    category: MINER
+    order: 10
+    slot: 21
+    requires: "miner_emerald"
+    objective_type: MINE_BLOCK
+    block: NETHER_QUARTZ_ORE
+    amount: 64
+    reward_kit: miner_nether_quartz
+    reward_display:
+      - "&f&l► &f128x Кварц Нижнего мира"
+      - "&f&l► &f1x Кирка &7(Эффективность IV, Починка)"
+      - "&f&l► &f8x Зелье силы II"
+
+  miner_ancient_debris:
+    display_name: "&4✦ Древний обломок"
+    description: "&7Добудь 16 древних обломков. Незерит ждёт."
+    icon: ANCIENT_DEBRIS
+    category: MINER
+    order: 11
+    slot: 22
+    requires: "miner_nether_quartz"
+    objective_type: MINE_BLOCK
+    block: ANCIENT_DEBRIS
+    amount: 16
+    reward_kit: miner_ancient_debris
+    reward_display:
+      - "&4&l► &f16x Древний обломок"
+      - "&4&l► &f1x Незеритовая кирка &7(Эффективность V, Починка)"
+      - "&4&l► &f8x Золотое яблоко"
+
+  miner_basalt:
+    display_name: "&8◈ Базальтовый титан"
+    description: "&7Добудь 256 базальта. Строительный материал."
+    icon: BASALT
+    category: MINER
+    order: 12
+    slot: 23
+    requires: "miner_ancient_debris"
+    objective_type: MINE_BLOCK
+    block: BASALT
+    amount: 256
+    reward_kit: miner_basalt
+    reward_display:
+      - "&8&l► &f256x Базальт"
+      - "&8&l► &f1x Кирка &7(Эффективность IV)"
+      - "&8&l► &f8x Золотое яблоко"
+
+  miner_andesite:
+    display_name: "&7◈ Андезитовый разрушитель"
+    description: "&7Добудь 256 андезита. Для средних веков."
+    icon: ANDESITE
+    category: MINER
+    order: 13
+    slot: 24
+    requires: "miner_basalt"
+    objective_type: MINE_BLOCK
+    block: ANDESITE
+    amount: 256
+    reward_kit: miner_andesite
+    reward_display:
+      - "&7&l► &f256x Андезит"
+      - "&7&l► &f1x Кирка &7(Эффективность IV, Прочность III)"
+      - "&7&l► &f16x Зелье скорости II"
+
+  miner_diorite:
+    display_name: "&f◈ Диоритовый мастер"
+    description: "&7Добудь 256 диорита. Для белых стен."
+    icon: DIORITE
+    category: MINER
+    order: 14
+    slot: 25
+    requires: "miner_andesite"
+    objective_type: MINE_BLOCK
+    block: DIORITE
+    amount: 256
+    reward_kit: miner_diorite
+    reward_display:
+      - "&f&l► &f256x Диорит"
+      - "&f&l► &f1x Кирка &7(Эффективность IV, Починка)"
+      - "&f&l► &f8x Зелье силы II"
+
+  miner_granite:
+    display_name: "&6◈ Гранитный гигант"
+    description: "&7Добудь 256 гранита. Для прочных построек."
+    icon: GRANITE
+    category: MINER
+    order: 15
+    slot: 28
+    requires: "miner_diorite"
+    objective_type: MINE_BLOCK
+    block: GRANITE
+    amount: 256
+    reward_kit: miner_granite
+    reward_display:
+      - "&6&l► &f256x Гранит"
+      - "&6&l► &f1x Кирка &7(Эффективность V, Прочность III)"
+      - "&6&l► &f8x Золотое яблоко"
+
+  miner_sandstone:
+    display_name: "&e◈ Песчаниковый строитель"
+    description: "&7Добудь 256 песчаника. Для пустынных храмов."
+    icon: SANDSTONE
+    category: MINER
+    order: 16
+    slot: 29
+    requires: "miner_granite"
+    objective_type: MINE_BLOCK
+    block: SANDSTONE
+    amount: 256
+    reward_kit: miner_sandstone
+    reward_display:
+      - "&e&l► &f256x Песчаник"
+      - "&e&l► &f1x Кирка &7(Эффективность IV)"
+      - "&e&l► &f16x Зелье скорости II"
+
+  miner_red_sandstone:
+    display_name: "&c◈ Красный песчаник"
+    description: "&7Добудь 256 красного песчаника. Для мезы."
+    icon: RED_SANDSTONE
+    category: MINER
+    order: 17
+    slot: 30
+    requires: "miner_sandstone"
+    objective_type: MINE_BLOCK
+    block: RED_SANDSTONE
+    amount: 256
+    reward_kit: miner_red_sandstone
+    reward_display:
+      - "&c&l► &f256x Красный песчаник"
+      - "&c&l► &f1x Кирка &7(Эффективность IV, Починка)"
+      - "&c&l► &f8x Золотое яблоко"
+
+  miner_end_stone:
+    display_name: "&5◈ Камень Края"
+    description: "&7Добудь 256 камня Края. Для порталов."
+    icon: END_STONE
+    category: MINER
+    order: 18
+    slot: 31
+    requires: "miner_red_sandstone"
+    objective_type: MINE_BLOCK
+    block: END_STONE
+    amount: 256
+    reward_kit: miner_end_stone
+    reward_display:
+      - "&5&l► &f256x Камень Края"
+      - "&5&l► &f1x Кирка &7(Эффективность V, Прочность III)"
+      - "&5&l► &f8x Жемчуг Края"
+
+  miner_netherrack:
+    display_name: "&4◈ Незераковый демон"
+    description: "&7Добудь 512 незерака. Адский фундамент."
+    icon: NETHERRACK
+    category: MINER
+    order: 19
+    slot: 32
+    requires: "miner_end_stone"
+    objective_type: MINE_BLOCK
+    block: NETHERRACK
+    amount: 512
+    reward_kit: miner_netherrack
+    reward_display:
+      - "&4&l► &f512x Незерак"
+      - "&4&l► &f1x Кирка &7(Эффективность IV, Починка)"
+      - "&4&l► &f8x Зелье огнестойкости"
+
+  miner_soul_sand:
+    display_name: "&8◈ Песок душ"
+    description: "&7Добудь 256 песка душ. Для иссушителя."
+    icon: SOUL_SAND
+    category: MINER
+    order: 20
+    slot: 33
+    requires: "miner_netherrack"
+    objective_type: MINE_BLOCK
+    block: SOUL_SAND
+    amount: 256
+    reward_kit: miner_soul_sand
+    reward_display:
+      - "&8&l► &f256x Песок душ"
+      - "&8&l► &f1x Кирка &7(Эффективность IV, Прочность III)"
+      - "&8&l► &f16x Золотое яблоко"
+
+  miner_glowstone:
+    display_name: "&e◈ Светокаменный жнец"
+    description: "&7Добудь 64 светокамня. Для освещения."
+    icon: GLOWSTONE
+    category: MINER
+    order: 21
+    slot: 34
+    requires: "miner_soul_sand"
+    objective_type: MINE_BLOCK
+    block: GLOWSTONE
+    amount: 64
+    reward_kit: miner_glowstone
+    reward_display:
+      - "&e&l► &f128x Светокамень"
+      - "&e&l► &f1x Кирка &7(Удача III, Эффективность IV)"
+      - "&e&l► &f16x Золотое яблоко"
+
+  miner_prismarine:
+    display_name: "&3◈ Призмариновый ныряльщик"
+    description: "&7Добудь 128 призмарина. Для подводных баз."
+    icon: PRISMARINE
+    category: MINER
+    order: 22
+    slot: 37
+    requires: "miner_glowstone"
+    objective_type: MINE_BLOCK
+    block: PRISMARINE
+    amount: 128
+    reward_kit: miner_prismarine
+    reward_display:
+      - "&3&l► &f128x Призмарин"
+      - "&3&l► &f1x Кирка &7(Эффективность IV, Починка)"
+      - "&3&l► &f8x Зелье водного дыхания"
+
+  miner_sea_lantern:
+    display_name: "&b◈ Морской фонарь"
+    description: "&7Добудь 64 морских фонаря. Свет под водой."
+    icon: SEA_LANTERN
+    category: MINER
+    order: 23
+    slot: 38
+    requires: "miner_prismarine"
+    objective_type: MINE_BLOCK
+    block: SEA_LANTERN
+    amount: 64
+    reward_kit: miner_sea_lantern
+    reward_display:
+      - "&b&l► &f128x Морской фонарь"
+      - "&b&l► &f1x Кирка &7(Шёлковое касание, Эффективность V)"
+      - "&b&l► &f8x Золотое яблоко"
+
+  miner_purpur:
+    display_name: "&d◈ Пурпурный строитель"
+    description: "&7Добудь 128 пурпура. Для Края."
+    icon: PURPUR_BLOCK
+    category: MINER
+    order: 24
+    slot: 39
+    requires: "miner_sea_lantern"
+    objective_type: MINE_BLOCK
+    block: PURPUR_BLOCK
+    amount: 128
+    reward_kit: miner_purpur
+    reward_display:
+      - "&d&l► &f128x Пурпурный блок"
+      - "&d&l► &f1x Кирка &7(Эффективность IV, Прочность III)"
+      - "&d&l► &f8x Жемчуг Края"
+
+  miner_bone_block:
+    display_name: "&f◈ Костяной магнат"
+    description: "&7Добудь 64 костяных блока. Для удобрений."
+    icon: BONE_BLOCK
+    category: MINER
+    order: 25
+    slot: 40
+    requires: "miner_purpur"
+    objective_type: MINE_BLOCK
+    block: BONE_BLOCK
+    amount: 64
+    reward_kit: miner_bone_block
+    reward_display:
+      - "&f&l► &f128x Костная мука"
+      - "&f&l► &f1x Кирка &7(Эффективность IV)"
+      - "&f&l► &f16x Золотое яблоко"
+
+  miner_coal_block:
+    display_name: "&8◈ Угольный барон"
+    description: "&7Добудь 64 угольных блока. Топливо на века."
+    icon: COAL_BLOCK
+    category: MINER
+    order: 26
+    slot: 41
+    requires: "miner_bone_block"
+    objective_type: MINE_BLOCK
+    block: COAL_BLOCK
+    amount: 64
+    reward_kit: miner_coal_block
+    reward_display:
+      - "&8&l► &f128x Угольный блок"
+      - "&8&l► &f1x Кирка &7(Удача III, Эффективность IV)"
+      - "&8&l► &f16x Золотое яблоко"
+
+  miner_iron_block:
+    display_name: "&f◈ Железный магнат"
+    description: "&7Добудь 32 железных блока. Строительный резерв."
+    icon: IRON_BLOCK
+    category: MINER
+    order: 27
+    slot: 42
+    requires: "miner_coal_block"
+    objective_type: MINE_BLOCK
+    block: IRON_BLOCK
+    amount: 32
+    reward_kit: miner_iron_block
+    reward_display:
+      - "&f&l► &f64x Железный блок"
+      - "&f&l► &f1x Кирка &7(Эффективность V, Прочность III)"
+      - "&f&l► &f8x Золотое яблоко"
+
+  miner_gold_block:
+    display_name: "&6◈ Золотой король"
+    description: "&7Добудь 32 золотых блока. Для пиглинов."
+    icon: GOLD_BLOCK
+    category: MINER
+    order: 28
+    slot: 43
+    requires: "miner_iron_block"
+    objective_type: MINE_BLOCK
+    block: GOLD_BLOCK
+    amount: 32
+    reward_kit: miner_gold_block
+    reward_display:
+      - "&6&l► &f64x Золотой блок"
+      - "&6&l► &f1x Незеритовая кирка &7(Эффективность V, Починка)"
+      - "&6&l► &f16x Золотое яблоко"
+      - "&6&l► &f8x Зелье силы II"
+
+# ==========================================================================
+# 🎣  ЛИНИЯ: РЫБАК (category: FISHER) — 28 квестов
+# ==========================================================================
+#
+#  Слоты: 10-16, 19-25, 28-34, 37-43
+#  Цепочка: каждый следующий требует предыдущий
+# ==========================================================================
+
+  fisher_first:
+    display_name: "&b~ Первый заброс"
+    description: "&7Поймай 10 рыб. Даже гриферы рыбачат."
+    icon: COD
+    category: FISHER
+    order: 1
+    slot: 10
+    requires: ""
+    objective_type: FISH
+    amount: 10
+    reward_kit: fisher_first
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря I, Приманка I)"
+      - "&b&l► &f16x Варёная рыба"
+
+  fisher_beginner:
+    display_name: "&3≈ Рыбак-любитель"
+    description: "&7Поймай 40 рыб. Терпение — ключ к улову."
+    icon: SALMON
+    category: FISHER
+    order: 2
+    slot: 11
+    requires: "fisher_first"
+    objective_type: FISH
+    amount: 40
+    reward_kit: fisher_beginner
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря II, Приманка II)"
+      - "&b&l► &f16x Варёный лосось"
+      - "&b&l► &f8x Золотая морковь"
+
+  fisher_hunter:
+    display_name: "&9⁓ Охотник глубин"
+    description: "&7Поймай 80 рыб. В воде — твои богатства."
+    icon: TROPICAL_FISH
+    category: FISHER
+    order: 3
+    slot: 12
+    requires: "fisher_beginner"
+    objective_type: FISH
+    amount: 80
+    reward_kit: fisher_hunter
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка II)"
+      - "&b&l► &f5x Жемчуг наутилуса"
+      - "&b&l► &f8x Зелье водного дыхания"
+
+  fisher_master:
+    display_name: "&b✧ Мастер удочки"
+    description: "&7Поймай 150 рыб. Море выдаёт лучшее лучшим."
+    icon: PUFFERFISH
+    category: FISHER
+    order: 4
+    slot: 13
+    requires: "fisher_hunter"
+    objective_type: FISH
+    amount: 150
+    reward_kit: fisher_master
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Починка)"
+      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита IV)"
+      - "&b&l► &f16x Зелье невидимости &7(8 мин)"
+
+  fisher_treasure:
+    display_name: "&e⊛ Рыбак сокровищ"
+    description: "&7Поймай 200 рыб. Иногда вместо рыбы — редкость."
+    icon: FISHING_ROD
+    category: FISHER
+    order: 5
+    slot: 14
+    requires: "fisher_master"
+    objective_type: FISH
+    amount: 200
+    reward_kit: fisher_treasure
+    reward_display:
+      - "&e&l► &f3x Книга зачарований &7(топ-чары)"
+      - "&e&l► &f16x Золотое яблоко"
+      - "&e&l► &f1x Тризуб &7(Лояльность III)"
+
+  fisher_ocean:
+    display_name: "&1⌇ Дитя океана"
+    description: "&7Поймай 300 рыб. Ты живёшь в воде."
+    icon: NAUTILUS_SHELL
+    category: FISHER
+    order: 6
+    slot: 15
+    requires: "fisher_treasure"
+    objective_type: FISH
+    amount: 300
+    reward_kit: fisher_ocean
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс I)"
+      - "&b&l► &f10x Жемчуг наутилуса"
+      - "&b&l► &f1x Полная броня &7(Водосродство, Дыхание III)"
+
+  fisher_legend:
+    display_name: "&d✦ Легенда рыбалки"
+    description: "&7Поймай 500 рыб. Ты болен. И это хорошо."
+    icon: COD_BUCKET
+    category: FISHER
+    order: 7
+    slot: 16
+    requires: "fisher_ocean"
+    objective_type: FISH
+    amount: 500
+    reward_kit: fisher_legend
+    reward_display:
+      - "&d&l► &f1x Тризуб &7(Лояльность III, Импульс II, Молния I)"
+      - "&d&l► &f1x Удочка &7(все чары максимальные)"
+      - "&d&l► &f32x Золотое яблоко"
+      - "&d&l► &f5x Зелье невидимости &7(8 мин)"
+
+  fisher_advanced1:
+    display_name: "&b☯ Опытный рыбак"
+    description: "&7Поймай 750 рыб. Море зовёт тебя."
+    icon: COD
+    category: FISHER
+    order: 8
+    slot: 19
+    requires: "fisher_legend"
+    objective_type: FISH
+    amount: 750
+    reward_kit: fisher_advanced1
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря IV, Приманка III)"
+      - "&b&l► &f32x Варёная рыба"
+      - "&b&l► &f16x Золотое яблоко"
+
+  fisher_advanced2:
+    display_name: "&3☯ Профессионал"
+    description: "&7Поймай 1000 рыб. Ты — часть океана."
+    icon: SALMON
+    category: FISHER
+    order: 9
+    slot: 20
+    requires: "fisher_advanced1"
+    objective_type: FISH
+    amount: 1000
+    reward_kit: fisher_advanced2
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря IV, Приманка III, Починка)"
+      - "&b&l► &f32x Варёный лосось"
+      - "&b&l► &f8x Жемчуг наутилуса"
+
+  fisher_advanced3:
+    display_name: "&9☯ Покоритель волн"
+    description: "&7Поймай 1500 рыб. Глубины не пугают."
+    icon: TROPICAL_FISH
+    category: FISHER
+    order: 10
+    slot: 21
+    requires: "fisher_advanced2"
+    objective_type: FISH
+    amount: 1500
+    reward_kit: fisher_advanced3
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс II)"
+      - "&b&l► &f16x Зелье водного дыхания"
+      - "&b&l► &f16x Золотое яблоко"
+
+  fisher_advanced4:
+    display_name: "&b☯ Морской волк"
+    description: "&7Поймай 2000 рыб. Ты знаешь каждый поток."
+    icon: PUFFERFISH
+    category: FISHER
+    order: 11
+    slot: 22
+    requires: "fisher_advanced3"
+    objective_type: FISH
+    amount: 2000
+    reward_kit: fisher_advanced4
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря V, Приманка IV, Починка)"
+      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита IV)"
+      - "&b&l► &f16x Золотое яблоко"
+
+  fisher_advanced5:
+    display_name: "&3☯ Повелитель рыб"
+    description: "&7Поймай 2500 рыб. Рыбы приплывают к тебе."
+    icon: FISHING_ROD
+    category: FISHER
+    order: 12
+    slot: 23
+    requires: "fisher_advanced4"
+    objective_type: FISH
+    amount: 2500
+    reward_kit: fisher_advanced5
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность IV, Импульс II, Молния I)"
+      - "&b&l► &f32x Золотое яблоко"
+      - "&b&l► &f8x Зелье невидимости &7(8 мин)"
+
+  fisher_advanced6:
+    display_name: "&9☯ Океанский властелин"
+    description: "&7Поймай 3000 рыб. Ты — хозяин глубин."
+    icon: NAUTILUS_SHELL
+    category: FISHER
+    order: 13
+    slot: 24
+    requires: "fisher_advanced5"
+    objective_type: FISH
+    amount: 3000
+    reward_kit: fisher_advanced6
+    reward_display:
+      - "&b&l► &f1x Удочка &7(все чары максимальные, Починка)"
+      - "&b&l► &f16x Жемчуг наутилуса"
+      - "&b&l► &f16x Золотое яблоко"
+
+  fisher_advanced7:
+    display_name: "&b☯ Легендарный улов"
+    description: "&7Поймай 4000 рыб. Твоё имя — на устах."
+    icon: COD_BUCKET
+    category: FISHER
+    order: 14
+    slot: 25
+    requires: "fisher_advanced6"
+    objective_type: FISH
+    amount: 4000
+    reward_kit: fisher_advanced7
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность IV, Импульс III, Молния II)"
+      - "&b&l► &f1x Броня &7(Защита IV, Дыхание III, Починка)"
+      - "&b&l► &f32x Золотое яблоко"
+
+  fisher_advanced8:
+    display_name: "&3☯ Глубинный демон"
+    description: "&7Поймай 5000 рыб. Ты живёшь рыбой."
+    icon: COD
+    category: FISHER
+    order: 15
+    slot: 28
+    requires: "fisher_advanced7"
+    objective_type: FISH
+    amount: 5000
+    reward_kit: fisher_advanced8
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря VI, Приманка V, Починка)"
+      - "&b&l► &f64x Варёная рыба"
+      - "&b&l► &f16x Золотое яблоко"
+
+  fisher_advanced9:
+    display_name: "&9☯ Морской король"
+    description: "&7Поймай 6000 рыб. Ты правишь волнами."
+    icon: SALMON
+    category: FISHER
+    order: 16
+    slot: 29
+    requires: "fisher_advanced8"
+    objective_type: FISH
+    amount: 6000
+    reward_kit: fisher_advanced9
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность V, Импульс III, Молния II)"
+      - "&b&l► &f32x Золотое яблоко"
+      - "&b&l► &f8x Зелье водного дыхания"
+
+  fisher_advanced10:
+    display_name: "&b☯ Владыка морей"
+    description: "&7Поймай 7000 рыб. Океан подчиняется."
+    icon: TROPICAL_FISH
+    category: FISHER
+    order: 17
+    slot: 30
+    requires: "fisher_advanced9"
+    objective_type: FISH
+    amount: 7000
+    reward_kit: fisher_advanced10
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря VI, Приманка V, Починка, Прочность III)"
+      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита IV)"
+      - "&b&l► &f32x Золотое яблоко"
+
+  fisher_advanced11:
+    display_name: "&3☯ Океанский титан"
+    description: "&7Поймай 8000 рыб. Ты — легенда."
+    icon: PUFFERFISH
+    category: FISHER
+    order: 18
+    slot: 31
+    requires: "fisher_advanced10"
+    objective_type: FISH
+    amount: 8000
+    reward_kit: fisher_advanced11
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность V, Импульс IV, Молния III)"
+      - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f8x Зелье невидимости &7(8 мин)"
+
+  fisher_advanced12:
+    display_name: "&9☯ Водный бог"
+    description: "&7Поймай 9000 рыб. Ты не человек."
+    icon: FISHING_ROD
+    category: FISHER
+    order: 19
+    slot: 32
+    requires: "fisher_advanced11"
+    objective_type: FISH
+    amount: 9000
+    reward_kit: fisher_advanced12
+    reward_display:
+      - "&b&l► &f1x Удочка &7(все чары максимальные, Починка, Прочность III)"
+      - "&b&l► &f1x Броня &7(Защита V, Дыхание III, Починка)"
+      - "&b&l► &f32x Золотое яблоко"
+
+  fisher_advanced13:
+    display_name: "&b☯ Бессмертный рыбак"
+    description: "&7Поймай 10000 рыб. Время не властно."
+    icon: NAUTILUS_SHELL
+    category: FISHER
+    order: 20
+    slot: 33
+    requires: "fisher_advanced12"
+    objective_type: FISH
+    amount: 10000
+    reward_kit: fisher_advanced13
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность VI, Импульс IV, Молния III, Починка)"
+      - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f16x Зелье водного дыхания"
+
+  fisher_advanced14:
+    display_name: "&3☯ Космический улов"
+    description: "&7Поймай 12000 рыб. Море — твоя стихия."
+    icon: COD_BUCKET
+    category: FISHER
+    order: 21
+    slot: 34
+    requires: "fisher_advanced13"
+    objective_type: FISH
+    amount: 12000
+    reward_kit: fisher_advanced14
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря VII, Приманка VI, Починка, Прочность III)"
+      - "&b&l► &f1x Шлем &7(Дыхание IV, Водосродство, Защита IV)"
+      - "&b&l► &f64x Золотое яблоко"
+
+  fisher_advanced15:
+    display_name: "&9☯ Абсолютный рыбак"
+    description: "&7Поймай 14000 рыб. Ты — само море."
+    icon: COD
+    category: FISHER
+    order: 22
+    slot: 37
+    requires: "fisher_advanced14"
+    objective_type: FISH
+    amount: 14000
+    reward_kit: fisher_advanced15
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность VI, Импульс V, Молния IV, Починка)"
+      - "&b&l► &f1x Броня &7(Защита V, Дыхание IV, Починка)"
+      - "&b&l► &f64x Золотое яблоко"
+
+  fisher_advanced16:
+    display_name: "&b☯ Глубинный бог"
+    description: "&7Поймай 16000 рыб. Ты вездесущ."
+    icon: SALMON
+    category: FISHER
+    order: 23
+    slot: 38
+    requires: "fisher_advanced15"
+    objective_type: FISH
+    amount: 16000
+    reward_kit: fisher_advanced16
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря VII, Приманка VI, Починка, Прочность III)"
+      - "&b&l► &f128x Варёная рыба"
+      - "&b&l► &f64x Золотое яблоко"
+
+  fisher_advanced17:
+    display_name: "&3☯ Владыка волн"
+    description: "&7Поймай 18000 рыб. Ты — хозяин."
+    icon: TROPICAL_FISH
+    category: FISHER
+    order: 24
+    slot: 39
+    requires: "fisher_advanced16"
+    objective_type: FISH
+    amount: 18000
+    reward_kit: fisher_advanced17
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность VII, Импульс V, Молния IV, Починка)"
+      - "&b&l► &f1x Шлем &7(Дыхание IV, Водосродство, Защита V)"
+      - "&b&l► &f128x Золотое яблоко"
+
+  fisher_advanced18:
+    display_name: "&9☯ Повелитель глубин"
+    description: "&7Поймай 20000 рыб. Ты — океан."
+    icon: PUFFERFISH
+    category: FISHER
+    order: 25
+    slot: 40
+    requires: "fisher_advanced17"
+    objective_type: FISH
+    amount: 20000
+    reward_kit: fisher_advanced18
+    reward_display:
+      - "&b&l► &f1x Удочка &7(все чары максимальные, Починка, Прочность III)"
+      - "&b&l► &f1x Броня &7(Защита V, Дыхание IV, Починка)"
+      - "&b&l► &f128x Золотое яблоко"
+
+  fisher_advanced19:
+    display_name: "&b☯ Бессмертный океан"
+    description: "&7Поймай 22000 рыб. Ты — вечен."
+    icon: FISHING_ROD
+    category: FISHER
+    order: 26
+    slot: 41
+    requires: "fisher_advanced18"
+    objective_type: FISH
+    amount: 22000
+    reward_kit: fisher_advanced19
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность VII, Импульс VI, Молния V, Починка)"
+      - "&b&l► &f64x Жемчуг наутилуса"
+      - "&b&l► &f128x Золотое яблоко"
+
+  fisher_advanced20:
+    display_name: "&3☯ Космический рыбак"
+    description: "&7Поймай 25000 рыб. Ты — всё."
+    icon: NAUTILUS_SHELL
+    category: FISHER
+    order: 27
+    slot: 42
+    requires: "fisher_advanced19"
+    objective_type: FISH
+    amount: 25000
+    reward_kit: fisher_advanced20
+    reward_display:
+      - "&b&l► &f1x Удочка &7(Удача моря VIII, Приманка VII, Починка, Прочность III)"
+      - "&b&l► &f1x Шлем &7(Дыхание IV, Водосродство, Защита V)"
+      - "&b&l► &f256x Золотое яблоко"
+
+  fisher_advanced21:
+    display_name: "&d☯ Легенда легенд"
+    description: "&7Поймай 30000 рыб. Ты — рыба."
+    icon: COD_BUCKET
+    category: FISHER
+    order: 28
+    slot: 43
+    requires: "fisher_advanced20"
+    objective_type: FISH
+    amount: 30000
+    reward_kit: fisher_advanced21
+    reward_display:
+      - "&b&l► &f1x Тризуб &7(Лояльность VIII, Импульс VI, Молния V, Починка)"
+      - "&b&l► &f1x Броня &7(Защита V, Дыхание IV, Починка, Прочность III)"
+      - "&b&l► &f512x Золотое яблоко"
+      - "&b&l► &f16x Зелье невидимости &7(8 мин)"
+
+# ==========================================================================
+# 🌲  ЛИНИЯ: ЛЕСНИК (category: LUMBERJACK) — 28 квестов
+# ==========================================================================
+#
+#  Слоты: 10-16, 19-25, 28-34, 37-43
+#  Цепочка: каждый следующий требует предыдущий
+# ==========================================================================
+
+  lumberjack_oak:
+    display_name: "&6▲ Дровосек"
+    description: "&7Срубай 128 дубов. С этого начинается любой лес."
+    icon: OAK_LOG
+    category: LUMBERJACK
+    order: 1
+    slot: 10
+    requires: ""
+    objective_type: MINE_BLOCK
+    block: OAK_LOG
+    amount: 128
+    reward_kit: lumberjack_oak
+    reward_display:
+      - "&6&l► &f64x Дубовые доски"
+      - "&6&l► &f1x Топор &7(Острота III, Эффективность III)"
+
+  lumberjack_birch:
+    display_name: "&f◁ Берёзовый рейдер"
+    description: "&7Срубай 128 берёз. Тонкая, но её много."
+    icon: BIRCH_LOG
+    category: LUMBERJACK
+    order: 2
+    slot: 11
+    requires: "lumberjack_oak"
+    objective_type: MINE_BLOCK
+    block: BIRCH_LOG
+    amount: 128
+    reward_kit: lumberjack_birch
+    reward_display:
+      - "&f&l► &f64x Берёзовые доски"
+      - "&f&l► &f1x Лук &7(Сила IV, Отдача II, Починка)"
+
+  lumberjack_spruce:
+    display_name: "&2◀ Еловый лесник"
+    description: "&7Срубай 128 елей. Высокая, падает громко."
+    icon: SPRUCE_LOG
+    category: LUMBERJACK
+    order: 3
+    slot: 12
+    requires: "lumberjack_birch"
+    objective_type: MINE_BLOCK
+    block: SPRUCE_LOG
+    amount: 128
+    reward_kit: lumberjack_spruce
+    reward_display:
+      - "&2&l► &f64x Еловые доски"
+      - "&2&l► &f1x Алмазный топор &7(Эффективность IV, Острота III)"
+
+  lumberjack_jungle:
+    display_name: "&a✦ Дух джунглей"
+    description: "&7Срубай 200 блоков джунглей. Нет правил — только деревья."
+    icon: JUNGLE_LOG
+    category: LUMBERJACK
+    order: 4
+    slot: 13
+    requires: "lumberjack_spruce"
+    objective_type: MINE_BLOCK
+    block: JUNGLE_LOG
+    amount: 200
+    reward_kit: lumberjack_jungle
+    reward_display:
+      - "&a&l► &f1x Алмазный топор &7(Эффективность V, Острота IV)"
+      - "&a&l► &f2x Седло"
+      - "&a&l► &f16x Золотое яблоко"
+
+  lumberjack_dark_oak:
+    display_name: "&8▶ Тёмный лес"
+    description: "&7Срубай 128 тёмных дубов. Огромные, тем лучше."
+    icon: DARK_OAK_LOG
+    category: LUMBERJACK
+    order: 5
+    slot: 14
+    requires: "lumberjack_jungle"
+    objective_type: MINE_BLOCK
+    block: DARK_OAK_LOG
+    amount: 128
+    reward_kit: lumberjack_dark_oak
+    reward_display:
+      - "&8&l► &f64x Тёмные доски"
+      - "&8&l► &f1x Алмазный топор &7(Острота IV, Эффективность IV, Починка)"
+      - "&8&l► &f8x Зелье силы II"
+
+  lumberjack_acacia:
+    display_name: "&6◈ Акациевый рейд"
+    description: "&7Срубай 128 акаций. Саванна горит — ты виноват."
+    icon: ACACIA_LOG
+    category: LUMBERJACK
+    order: 6
+    slot: 15
+    requires: "lumberjack_dark_oak"
+    objective_type: MINE_BLOCK
+    block: ACACIA_LOG
+    amount: 128
+    reward_kit: lumberjack_acacia
+    reward_display:
+      - "&6&l► &f64x Акациевые доски"
+      - "&6&l► &f8x Огниво"
+      - "&6&l► &f16x Золотое яблоко"
+
+  lumberjack_legend:
+    display_name: "&2✿ Легенда леса"
+    description: "&7Срубай ещё 512 дубов. Лес плачет. Тебе всё равно."
+    icon: OAK_SAPLING
+    category: LUMBERJACK
+    order: 7
+    slot: 16
+    requires: "lumberjack_acacia"
+    objective_type: MINE_BLOCK
+    block: OAK_LOG
+    amount: 512
+    reward_kit: lumberjack_legend
+    reward_display:
+      - "&2&l► &f1x Топор &7(Эффективность V, Острота V, Прочность III, Починка)"
+      - "&2&l► &f1x Кираса &7(Защита IV, Шипы III, Починка)"
+      - "&2&l► &f32x Золотое яблоко"
+      - "&2&l► &f16x Зелье невидимости &7(8 мин)"
+
+  lumberjack_oak2:
+    display_name: "&6▲ Дубовый магнат"
+    description: "&7Срубай 256 дубов. Лес твой."
+    icon: OAK_LOG
+    category: LUMBERJACK
+    order: 8
+    slot: 19
+    requires: "lumberjack_legend"
+    objective_type: MINE_BLOCK
+    block: OAK_LOG
+    amount: 256
+    reward_kit: lumberjack_oak2
+    reward_display:
+      - "&6&l► &f128x Дубовые доски"
+      - "&6&l► &f1x Алмазный топор &7(Эффективность V, Острота IV, Починка)"
+      - "&6&l► &f16x Золотое яблоко"
+
+  lumberjack_birch2:
+    display_name: "&f◁ Берёзовый барон"
+    description: "&7Срубай 256 берёз. Белый лес."
+    icon: BIRCH_LOG
+    category: LUMBERJACK
+    order: 9
+    slot: 20
+    requires: "lumberjack_oak2"
+    objective_type: MINE_BLOCK
+    block: BIRCH_LOG
+    amount: 256
+    reward_kit: lumberjack_birch2
+    reward_display:
+      - "&f&l► &f128x Берёзовые доски"
+      - "&f&l► &f1x Лук &7(Сила V, Отдача II, Починка)"
+      - "&f&l► &f16x Золотое яблоко"
+
+  lumberjack_spruce2:
+    display_name: "&2◀ Еловый король"
+    description: "&7Срубай 256 елей. Хвойная мощь."
+    icon: SPRUCE_LOG
+    category: LUMBERJACK
+    order: 10
+    slot: 21
+    requires: "lumberjack_birch2"
+    objective_type: MINE_BLOCK
+    block: SPRUCE_LOG
+    amount: 256
+    reward_kit: lumberjack_spruce2
+    reward_display:
+      - "&2&l► &f128x Еловые доски"
+      - "&2&l► &f1x Незеритовый топор &7(Эффективность V, Острота IV)"
+      - "&2&l► &f16x Золотое яблоко"
+
+  lumberjack_jungle2:
+    display_name: "&a✦ Джунглевый властелин"
+    description: "&7Срубай 256 джунглей. Тропический рай."
+    icon: JUNGLE_LOG
+    category: LUMBERJACK
+    order: 11
+    slot: 22
+    requires: "lumberjack_spruce2"
+    objective_type: MINE_BLOCK
+    block: JUNGLE_LOG
+    amount: 256
+    reward_kit: lumberjack_jungle2
+    reward_display:
+      - "&a&l► &f128x Джунглевые доски"
+      - "&a&l► &f4x Седло"
+      - "&a&l► &f32x Золотое яблоко"
+
+  lumberjack_dark_oak2:
+    display_name: "&8▶ Тёмный магнат"
+    description: "&7Срубай 256 тёмных дубов. Мрак твой."
+    icon: DARK_OAK_LOG
+    category: LUMBERJACK
+    order: 12
+    slot: 23
+    requires: "lumberjack_jungle2"
+    objective_type: MINE_BLOCK
+    block: DARK_OAK_LOG
+    amount: 256
+    reward_kit: lumberjack_dark_oak2
+    reward_display:
+      - "&8&l► &f128x Тёмные доски"
+      - "&8&l► &f1x Алмазный топор &7(Острота V, Эффективность V, Починка)"
+      - "&8&l► &f16x Зелье силы II"
+
+  lumberjack_acacia2:
+    display_name: "&6◈ Акациевый барон"
+    description: "&7Срубай 256 акаций. Саванна в огне."
+    icon: ACACIA_LOG
+    category: LUMBERJACK
+    order: 13
+    slot: 24
+    requires: "lumberjack_dark_oak2"
+    objective_type: MINE_BLOCK
+    block: ACACIA_LOG
+    amount: 256
+    reward_kit: lumberjack_acacia2
+    reward_display:
+      - "&6&l► &f128x Акациевые доски"
+      - "&6&l► &f16x Огниво"
+      - "&6&l► &f32x Золотое яблоко"
+
+  lumberjack_legend2:
+    display_name: "&2✿ Лесной бог"
+    description: "&7Срубай 1024 дуба. Лес молится тебе."
+    icon: OAK_SAPLING
+    category: LUMBERJACK
+    order: 14
+    slot: 25
+    requires: "lumberjack_acacia2"
+    objective_type: MINE_BLOCK
+    block: OAK_LOG
+    amount: 1024
+    reward_kit: lumberjack_legend2
+    reward_display:
+      - "&2&l► &f1x Незеритовый топор &7(Эффективность V, Острота V, Прочность III, Починка)"
+      - "&2&l► &f1x Кираса &7(Защита V, Шипы III, Починка)"
+      - "&2&l► &f64x Золотое яблоко"
+      - "&2&l► &f16x Зелье невидимости &7(8 мин)"
+
+  lumberjack_leaves_oak:
+    display_name: "&2✦ Лиственный сборщик"
+    description: "&7Собери 512 листьев дуба. Для декора."
+    icon: OAK_LEAVES
+    category: LUMBERJACK
+    order: 15
+    slot: 28
+    requires: "lumberjack_legend2"
+    objective_type: MINE_BLOCK
+    block: OAK_LEAVES
+    amount: 512
+    reward_kit: lumberjack_leaves_oak
+    reward_display:
+      - "&2&l► &f256x Листья дуба"
+      - "&2&l► &f1x Ножницы"
+      - "&2&l► &f8x Золотое яблоко"
+
+  lumberjack_leaves_birch:
+    display_name: "&f✦ Берёзовый лист"
+    description: "&7Собери 512 листьев берёзы. Светло."
+    icon: BIRCH_LEAVES
+    category: LUMBERJACK
+    order: 16
+    slot: 29
+    requires: "lumberjack_leaves_oak"
+    objective_type: MINE_BLOCK
+    block: BIRCH_LEAVES
+    amount: 512
+    reward_kit: lumberjack_leaves_birch
+    reward_display:
+      - "&f&l► &f256x Листья берёзы"
+      - "&f&l► &f1x Ножницы &7(Починка)"
+      - "&f&l► &f8x Золотое яблоко"
+
+  lumberjack_leaves_spruce:
+    display_name: "&2✦ Еловый лист"
+    description: "&7Собери 512 листьев ели. Хвойный."
+    icon: SPRUCE_LEAVES
+    category: LUMBERJACK
+    order: 17
+    slot: 30
+    requires: "lumberjack_leaves_birch"
+    objective_type: MINE_BLOCK
+    block: SPRUCE_LEAVES
+    amount: 512
+    reward_kit: lumberjack_leaves_spruce
+    reward_display:
+      - "&2&l► &f256x Листья ели"
+      - "&2&l► &f1x Алмазный топор &7(Эффективность IV, Починка)"
+      - "&2&l► &f8x Зелье скорости II"
+
+  lumberjack_leaves_jungle:
+    display_name: "&a✦ Джунглевый лист"
+    description: "&7Собери 512 листьев джунглей. Тропики."
+    icon: JUNGLE_LEAVES
+    category: LUMBERJACK
+    order: 18
+    slot: 31
+    requires: "lumberjack_leaves_spruce"
+    objective_type: MINE_BLOCK
+    block: JUNGLE_LEAVES
+    amount: 512
+    reward_kit: lumberjack_leaves_jungle
+    reward_display:
+      - "&a&l► &f256x Листья джунглей"
+      - "&a&l► &f1x Алмазный топор &7(Эффективность V, Острота III)"
+      - "&a&l► &f16x Золотое яблоко"
+
+  lumberjack_leaves_dark_oak:
+    display_name: "&8✦ Тёмный лист"
+    description: "&7Собери 512 листьев тёмного дуба. Мрачный."
+    icon: DARK_OAK_LEAVES
+    category: LUMBERJACK
+    order: 19
+    slot: 32
+    requires: "lumberjack_leaves_jungle"
+    objective_type: MINE_BLOCK
+    block: DARK_OAK_LEAVES
+    amount: 512
+    reward_kit: lumberjack_leaves_dark_oak
+    reward_display:
+      - "&8&l► &f256x Листья тёмного дуба"
+      - "&8&l► &f1x Ножницы &7(Прочность III)"
+      - "&8&l► &f8x Зелье невидимости &7(8 мин)"
+
+  lumberjack_leaves_acacia:
+    display_name: "&6✦ Акациевый лист"
+    description: "&7Собери 512 листьев акации. Жарко."
+    icon: ACACIA_LEAVES
+    category: LUMBERJACK
+    order: 20
+    slot: 33
+    requires: "lumberjack_leaves_dark_oak"
+    objective_type: MINE_BLOCK
+    block: ACACIA_LEAVES
+    amount: 512
+    reward_kit: lumberjack_leaves_acacia
+    reward_display:
+      - "&6&l► &f256x Листья акации"
+      - "&6&l► &f1x Алмазный топор &7(Эффективность IV, Починка)"
+      - "&6&l► &f8x Золотое яблоко"
+
+  lumberjack_mushroom_brown:
+    display_name: "&6✦ Грибной фермер"
+    description: "&7Собери 128 коричневых грибных блоков."
+    icon: BROWN_MUSHROOM_BLOCK
+    category: LUMBERJACK
+    order: 21
+    slot: 34
+    requires: "lumberjack_leaves_acacia"
+    objective_type: MINE_BLOCK
+    block: BROWN_MUSHROOM_BLOCK
+    amount: 128
+    reward_kit: lumberjack_mushroom_brown
+    reward_display:
+      - "&6&l► &f128x Коричневый грибной блок"
+      - "&6&l► &f16x Грибной суп"
+      - "&6&l► &f8x Золотое яблоко"
+
+  lumberjack_mushroom_red:
+    display_name: "&c✦ Красный грибник"
+    description: "&7Собери 128 красных грибных блоков."
+    icon: RED_MUSHROOM_BLOCK
+    category: LUMBERJACK
+    order: 22
+    slot: 37
+    requires: "lumberjack_mushroom_brown"
+    objective_type: MINE_BLOCK
+    block: RED_MUSHROOM_BLOCK
+    amount: 128
+    reward_kit: lumberjack_mushroom_red
+    reward_display:
+      - "&c&l► &f128x Красный грибной блок"
+      - "&c&l► &f16x Грибной суп"
+      - "&c&l► &f16x Золотое яблоко"
+
+  lumberjack_apple:
+    display_name: "&a✦ Яблочный вор"
+    description: "&7Собери 64 яблока. Для здоровья."
+    icon: APPLE
+    category: LUMBERJACK
+    order: 23
+    slot: 38
+    requires: "lumberjack_mushroom_red"
+    objective_type: COLLECT_ITEM
+    item: APPLE
+    amount: 64
+    reward_kit: lumberjack_apple
+    reward_display:
+      - "&a&l► &f64x Золотое яблоко"
+      - "&a&l► &f1x Кираса &7(Защита IV)"
+      - "&a&l► &f8x Зелье регенерации II"
+
+  lumberjack_stick:
+    display_name: "&8✦ Палколом"
+    description: "&7Собери 128 палок. Для крафта."
+    icon: STICK
+    category: LUMBERJACK
+    order: 24
+    slot: 39
+    requires: "lumberjack_apple"
+    objective_type: COLLECT_ITEM
+    item: STICK
+    amount: 128
+    reward_kit: lumberjack_stick
+    reward_display:
+      - "&8&l► &f128x Палка"
+      - "&8&l► &f1x Лук &7(Сила V, Бесконечность)"
+      - "&8&l► &f8x Золотое яблоко"
+
+  lumberjack_sapling_oak:
+    display_name: "&2✦ Саженец дуба"
+    description: "&7Собери 64 саженца дуба. Новые леса."
+    icon: OAK_SAPLING
+    category: LUMBERJACK
+    order: 25
+    slot: 40
+    requires: "lumberjack_stick"
+    objective_type: COLLECT_ITEM
+    item: OAK_SAPLING
+    amount: 64
+    reward_kit: lumberjack_sapling_oak
+    reward_display:
+      - "&2&l► &f64x Саженец дуба"
+      - "&2&l► &f1x Алмазный топор &7(Эффективность V, Починка)"
+      - "&2&l► &f16x Золотое яблоко"
+
+  lumberjack_sapling_birch:
+    display_name: "&f✦ Саженец берёзы"
+    description: "&7Собери 64 саженца берёзы. Светлые леса."
+    icon: BIRCH_SAPLING
+    category: LUMBERJACK
+    order: 26
+    slot: 41
+    requires: "lumberjack_sapling_oak"
+    objective_type: COLLECT_ITEM
+    item: BIRCH_SAPLING
+    amount: 64
+    reward_kit: lumberjack_sapling_birch
+    reward_display:
+      - "&f&l► &f64x Саженец берёзы"
+      - "&f&l► &f1x Лук &7(Сила IV, Отдача II)"
+      - "&f&l► &f16x Золотое яблоко"
+
+  lumberjack_craft_planks:
+    display_name: "&6✦ Мастер досок"
+    description: "&7Скрафти 512 дубовых досок. Строитель."
+    icon: OAK_PLANKS
+    category: LUMBERJACK
+    order: 27
+    slot: 42
+    requires: "lumberjack_sapling_birch"
+    objective_type: CRAFT_ITEM
+    item: OAK_PLANKS
+    amount: 512
+    reward_kit: lumberjack_craft_planks
+    reward_display:
+      - "&6&l► &f512x Дубовые доски"
+      - "&6&l► &f1x Верстак"
+      - "&6&l► &f16x Золотое яблоко"
+
+  lumberjack_craft_chest:
+    display_name: "&8✦ Сундучник"
+    description: "&7Скрафти 64 сундука. Храни сокровища."
+    icon: CHEST
+    category: LUMBERJACK
+    order: 28
+    slot: 43
+    requires: "lumberjack_craft_planks"
+    objective_type: CRAFT_ITEM
+    item: CHEST
+    amount: 64
+    reward_kit: lumberjack_craft_chest
+    reward_display:
+      - "&8&l► &f64x Сундук"
+      - "&8&l► &f1x Незеритовый топор &7(Эффективность V, Острота V, Починка)"
+      - "&8&l► &f32x Золотое яблоко"
+      - "&8&l► &f8x Зелье невидимости &7(8 мин)"

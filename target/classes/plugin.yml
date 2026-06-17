@@ -1,0 +1,49 @@
+name: NanoQuests
+version: 1.0.0
+main: org.nanodev.nanoquests.NanoQuests
+api-version: 1.16
+description: Quest system - 30 quests, 4 lines, GUI menu
+authors: [nanodev]
+
+commands:
+  quests:
+    description: Open main quest menu
+    usage: /quests
+    permission: nanoquests.use
+
+  questcombat:
+    description: Open Combat quest line
+    usage: /questcombat
+    permission: nanoquests.use
+    aliases: [qcombat]
+
+  questmine:
+    description: Open Miner quest line
+    usage: /questmine
+    permission: nanoquests.use
+    aliases: [qmine]
+
+  questfish:
+    description: Open Fisher quest line
+    usage: /questfish
+    permission: nanoquests.use
+    aliases: [qfish]
+
+  questwood:
+    description: Open Lumberjack quest line
+    usage: /questwood
+    permission: nanoquests.use
+    aliases: [qwood]
+
+  questadmin:
+    description: Admin commands
+    usage: /questadmin <reload|reset <player>>
+    permission: nanoquests.admin
+
+permissions:
+  nanoquests.use:
+    description: Use quest commands and menu
+    default: true
+  nanoquests.admin:
+    description: Admin access
+    default: op

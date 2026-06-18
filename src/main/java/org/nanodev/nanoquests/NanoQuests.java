@@ -29,6 +29,7 @@ public class NanoQuests extends JavaPlugin {
         getCommand("questfish").setExecutor(handler);
         getCommand("questwood").setExecutor(handler);
         getCommand("questadmin").setExecutor(handler);
+        getCommand("questskip").setExecutor(handler);
 
         getServer().getPluginManager().registerEvents(new QuestListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);

@@ -1026,456 +1026,466 @@ quests:
 #
 #  Слоты: 10-16, 19-25, 28-34, 37-43
 #  Цепочка: каждый следующий требует предыдущий
+#
+#  Прогрессия (кол-во рыб):
+#  5 → 15 → 30 → 50 → 75 → 100 → 150
+#  → 200 → 260 → 320 → 390 → 460 → 540 → 620
+#  → 700 → 790 → 880 → 970 → 1070 → 1170
+#  → 1280 → 1400 → 1530 → 1660 → 1800 → 1950 → 2100 → 2300
 # ==========================================================================
 
   fisher_first:
     display_name: "&b~ Первый заброс"
-    description: "&7Поймай 10 рыб. Даже гриферы рыбачат."
+    description: "&7Забрось удочку и поймай первых 5 рыб. Начало положено."
     icon: COD
     category: FISHER
     order: 1
     slot: 10
     requires: ""
     objective_type: FISH
-    amount: 10
+    amount: 5
     reward_kit: fisher_first
     reward_display:
       - "&b&l► &f1x Удочка &7(Удача моря I, Приманка I)"
-      - "&b&l► &f16x Варёная рыба"
+      - "&b&l► &f8x Варёная рыба"
 
   fisher_beginner:
-    display_name: "&3≈ Рыбак-любитель"
-    description: "&7Поймай 40 рыб. Терпение — ключ к улову."
+    display_name: "&3≈ Клёв пошёл"
+    description: "&7Поймай 15 рыб. Удочка уже в руках — дело за малым."
     icon: SALMON
     category: FISHER
     order: 2
     slot: 11
     requires: "fisher_first"
     objective_type: FISH
-    amount: 40
+    amount: 15
     reward_kit: fisher_beginner
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря II, Приманка II)"
+      - "&b&l► &f1x Удочка &7(Удача моря I, Приманка II)"
       - "&b&l► &f16x Варёный лосось"
-      - "&b&l► &f8x Золотая морковь"
+      - "&b&l► &f4x Золотая морковь"
 
-  fisher_hunter:
-    display_name: "&9⁓ Охотник глубин"
-    description: "&7Поймай 80 рыб. В воде — твои богатства."
+  fisher_patient:
+    display_name: "&9⏳ Железное терпение"
+    description: "&7Поймай 30 рыб. Говорят, рыбалка успокаивает. Особенно на грифе."
     icon: TROPICAL_FISH
     category: FISHER
     order: 3
     slot: 12
     requires: "fisher_beginner"
     objective_type: FISH
-    amount: 80
-    reward_kit: fisher_hunter
+    amount: 30
+    reward_kit: fisher_patient
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка II)"
+      - "&b&l► &f1x Удочка &7(Удача моря II, Приманка II)"
       - "&b&l► &f5x Жемчуг наутилуса"
       - "&b&l► &f8x Зелье водного дыхания"
 
-  fisher_master:
-    display_name: "&b✧ Мастер удочки"
-    description: "&7Поймай 150 рыб. Море выдаёт лучшее лучшим."
+  fisher_hunter:
+    display_name: "&b✦ Охотник глубин"
+    description: "&7Поймай 50 рыб. Что там скрывается на дне?"
     icon: PUFFERFISH
     category: FISHER
     order: 4
     slot: 13
-    requires: "fisher_hunter"
+    requires: "fisher_patient"
     objective_type: FISH
-    amount: 150
-    reward_kit: fisher_master
+    amount: 50
+    reward_kit: fisher_hunter
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Починка)"
-      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита IV)"
-      - "&b&l► &f16x Зелье невидимости &7(8 мин)"
+      - "&b&l► &f1x Удочка &7(Удача моря II, Приманка III, Починка)"
+      - "&b&l► &f1x Шлем &7(Дыхание II, Водосродство, Защита III)"
+      - "&b&l► &f8x Золотое яблоко"
 
   fisher_treasure:
     display_name: "&e⊛ Рыбак сокровищ"
-    description: "&7Поймай 200 рыб. Иногда вместо рыбы — редкость."
+    description: "&7Поймай 75 рыб. Однажды вытащишь что-то ценное."
     icon: FISHING_ROD
     category: FISHER
     order: 5
     slot: 14
-    requires: "fisher_master"
+    requires: "fisher_hunter"
     objective_type: FISH
-    amount: 200
+    amount: 75
     reward_kit: fisher_treasure
     reward_display:
-      - "&e&l► &f3x Книга зачарований &7(топ-чары)"
-      - "&e&l► &f16x Золотое яблоко"
-      - "&e&l► &f1x Тризуб &7(Лояльность III)"
+      - "&e&l► &f2x Книга зачарований"
+      - "&e&l► &f12x Золотое яблоко"
+      - "&e&l► &f1x Тризуб &7(Лояльность II)"
 
-  fisher_ocean:
-    display_name: "&1⌇ Дитя океана"
-    description: "&7Поймай 300 рыб. Ты живёшь в воде."
+  fisher_night:
+    display_name: "&1🌙 Ночной улов"
+    description: "&7Поймай 100 рыб. Ночью клюёт лучше — или тебе так кажется."
     icon: NAUTILUS_SHELL
     category: FISHER
     order: 6
     slot: 15
     requires: "fisher_treasure"
     objective_type: FISH
-    amount: 300
-    reward_kit: fisher_ocean
+    amount: 100
+    reward_kit: fisher_night
     reward_display:
       - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс I)"
-      - "&b&l► &f10x Жемчуг наутилуса"
-      - "&b&l► &f1x Полная броня &7(Водосродство, Дыхание III)"
+      - "&b&l► &f8x Жемчуг наутилуса"
+      - "&b&l► &f8x Зелье невидимости &7(3 мин)"
+      - "&b&l► &f1x Броня &7(Водосродство, Дыхание II)"
 
-  fisher_legend:
-    display_name: "&d✦ Легенда рыбалки"
-    description: "&7Поймай 500 рыб. Ты болен. И это хорошо."
+  fisher_storm:
+    display_name: "&d⚡ Рыбак под грозой"
+    description: "&7Поймай 150 рыб. Гроза — лучшее время для рыбалки и грифа."
     icon: COD_BUCKET
     category: FISHER
     order: 7
     slot: 16
-    requires: "fisher_ocean"
+    requires: "fisher_night"
     objective_type: FISH
-    amount: 500
-    reward_kit: fisher_legend
+    amount: 150
+    reward_kit: fisher_storm
     reward_display:
-      - "&d&l► &f1x Тризуб &7(Лояльность III, Импульс II, Молния I)"
-      - "&d&l► &f1x Удочка &7(все чары максимальные)"
-      - "&d&l► &f32x Золотое яблоко"
-      - "&d&l► &f5x Зелье невидимости &7(8 мин)"
+      - "&d&l► &f1x Тризуб &7(Лояльность III, Импульс I, Молния I)"
+      - "&d&l► &f1x Удочка &7(Удача моря III, Приманка III, Починка)"
+      - "&d&l► &f16x Золотое яблоко"
+      - "&d&l► &f4x Зелье невидимости &7(8 мин)"
 
   fisher_advanced1:
-    display_name: "&b☯ Опытный рыбак"
-    description: "&7Поймай 750 рыб. Море зовёт тебя."
+    display_name: "&b☯ Речной пират"
+    description: "&7Поймай 200 рыб. Лодка, удочка, и никакого закона."
     icon: COD
     category: FISHER
     order: 8
     slot: 19
-    requires: "fisher_legend"
+    requires: "fisher_storm"
     objective_type: FISH
-    amount: 750
+    amount: 200
     reward_kit: fisher_advanced1
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря IV, Приманка III)"
-      - "&b&l► &f32x Варёная рыба"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Починка)"
       - "&b&l► &f16x Золотое яблоко"
+      - "&b&l► &f8x Зелье скорости II"
 
   fisher_advanced2:
-    display_name: "&3☯ Профессионал"
-    description: "&7Поймай 1000 рыб. Ты — часть океана."
+    display_name: "&3🦈 Акулья хватка"
+    description: "&7Поймай 260 рыб. Хватай всё что движется."
     icon: SALMON
     category: FISHER
     order: 9
     slot: 20
     requires: "fisher_advanced1"
     objective_type: FISH
-    amount: 1000
+    amount: 260
     reward_kit: fisher_advanced2
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря IV, Приманка III, Починка)"
-      - "&b&l► &f32x Варёный лосось"
-      - "&b&l► &f8x Жемчуг наутилуса"
+      - "&b&l► &f12x Жемчуг наутилуса"
+      - "&b&l► &f24x Золотое яблоко"
+      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита III)"
 
   fisher_advanced3:
-    display_name: "&9☯ Покоритель волн"
-    description: "&7Поймай 1500 рыб. Глубины не пугают."
+    display_name: "&9🌊 Покоритель волн"
+    description: "&7Поймай 320 рыб. Волны — твои союзники."
     icon: TROPICAL_FISH
     category: FISHER
     order: 10
     slot: 21
     requires: "fisher_advanced2"
     objective_type: FISH
-    amount: 1500
+    amount: 320
     reward_kit: fisher_advanced3
     reward_display:
       - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс II)"
       - "&b&l► &f16x Зелье водного дыхания"
-      - "&b&l► &f16x Золотое яблоко"
+      - "&b&l► &f20x Золотое яблоко"
 
   fisher_advanced4:
-    display_name: "&b☯ Морской волк"
-    description: "&7Поймай 2000 рыб. Ты знаешь каждый поток."
+    display_name: "&b🐬 Дельфиний друг"
+    description: "&7Поймай 390 рыб. Дельфины тебя уважают."
     icon: PUFFERFISH
     category: FISHER
     order: 11
     slot: 22
     requires: "fisher_advanced3"
     objective_type: FISH
-    amount: 2000
+    amount: 390
     reward_kit: fisher_advanced4
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря V, Приманка IV, Починка)"
-      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита IV)"
-      - "&b&l► &f16x Золотое яблоко"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Прочность III, Починка)"
+      - "&b&l► &f1x Нагрудник &7(Защита IV, Водосродство, Починка)"
+      - "&b&l► &f20x Золотое яблоко"
 
   fisher_advanced5:
-    display_name: "&3☯ Повелитель рыб"
-    description: "&7Поймай 2500 рыб. Рыбы приплывают к тебе."
+    display_name: "&3🐙 Осьминог бездны"
+    description: "&7Поймай 460 рыб. Щупальца везде, рыба — тоже."
     icon: FISHING_ROD
     category: FISHER
     order: 12
     slot: 23
     requires: "fisher_advanced4"
     objective_type: FISH
-    amount: 2500
+    amount: 460
     reward_kit: fisher_advanced5
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность IV, Импульс II, Молния I)"
-      - "&b&l► &f32x Золотое яблоко"
-      - "&b&l► &f8x Зелье невидимости &7(8 мин)"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс II, Молния I)"
+      - "&b&l► &f24x Золотое яблоко"
+      - "&b&l► &f6x Зелье невидимости &7(8 мин)"
 
   fisher_advanced6:
-    display_name: "&9☯ Океанский властелин"
-    description: "&7Поймай 3000 рыб. Ты — хозяин глубин."
+    display_name: "&9🌺 Коралловый барон"
+    description: "&7Поймай 540 рыб. Рифы — твой дом."
     icon: NAUTILUS_SHELL
     category: FISHER
     order: 13
     slot: 24
     requires: "fisher_advanced5"
     objective_type: FISH
-    amount: 3000
+    amount: 540
     reward_kit: fisher_advanced6
     reward_display:
-      - "&b&l► &f1x Удочка &7(все чары максимальные, Починка)"
-      - "&b&l► &f16x Жемчуг наутилуса"
-      - "&b&l► &f16x Золотое яблоко"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Прочность III, Починка)"
+      - "&b&l► &f20x Жемчуг наутилуса"
+      - "&b&l► &f28x Золотое яблоко"
 
   fisher_advanced7:
-    display_name: "&b☯ Легендарный улов"
-    description: "&7Поймай 4000 рыб. Твоё имя — на устах."
+    display_name: "&b💎 Жемчужный охотник"
+    description: "&7Поймай 620 рыб. Каждая рыба — шанс на жемчуг."
     icon: COD_BUCKET
     category: FISHER
     order: 14
     slot: 25
     requires: "fisher_advanced6"
     objective_type: FISH
-    amount: 4000
+    amount: 620
     reward_kit: fisher_advanced7
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность IV, Импульс III, Молния II)"
-      - "&b&l► &f1x Броня &7(Защита IV, Дыхание III, Починка)"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс II, Молния I, Починка)"
+      - "&b&l► &f1x Полная броня &7(Защита IV, Дыхание III, Починка)"
       - "&b&l► &f32x Золотое яблоко"
 
   fisher_advanced8:
-    display_name: "&3☯ Глубинный демон"
-    description: "&7Поймай 5000 рыб. Ты живёшь рыбой."
+    display_name: "&3🌀 Водоворот"
+    description: "&7Поймай 700 рыб. Ты сам как водоворот — всё в тебя."
     icon: COD
     category: FISHER
     order: 15
     slot: 28
     requires: "fisher_advanced7"
     objective_type: FISH
-    amount: 5000
+    amount: 700
     reward_kit: fisher_advanced8
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря VI, Приманка V, Починка)"
-      - "&b&l► &f64x Варёная рыба"
-      - "&b&l► &f16x Золотое яблоко"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Прочность III, Починка)"
+      - "&b&l► &f32x Золотое яблоко"
+      - "&b&l► &f8x Зелье силы II"
 
   fisher_advanced9:
-    display_name: "&9☯ Морской король"
-    description: "&7Поймай 6000 рыб. Ты правишь волнами."
+    display_name: "&9⚓ Морской капитан"
+    description: "&7Поймай 790 рыб. Ты командуешь флотилией из удочек."
     icon: SALMON
     category: FISHER
     order: 16
     slot: 29
     requires: "fisher_advanced8"
     objective_type: FISH
-    amount: 6000
+    amount: 790
     reward_kit: fisher_advanced9
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность V, Импульс III, Молния II)"
-      - "&b&l► &f32x Золотое яблоко"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс II, Молния I, Прочность III, Починка)"
+      - "&b&l► &f36x Золотое яблоко"
       - "&b&l► &f8x Зелье водного дыхания"
 
   fisher_advanced10:
-    display_name: "&b☯ Владыка морей"
-    description: "&7Поймай 7000 рыб. Океан подчиняется."
+    display_name: "&b🐋 Охотник на китов"
+    description: "&7Поймай 880 рыб. Киты тебя уже боятся."
     icon: TROPICAL_FISH
     category: FISHER
     order: 17
     slot: 30
     requires: "fisher_advanced9"
     objective_type: FISH
-    amount: 7000
+    amount: 880
     reward_kit: fisher_advanced10
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря VI, Приманка V, Починка, Прочность III)"
-      - "&b&l► &f1x Шлем &7(Дыхание III, Водосродство, Защита IV)"
-      - "&b&l► &f32x Золотое яблоко"
+      - "&b&l► &f1x Полная броня &7(Защита IV, Дыхание III, Водосродство, Починка)"
+      - "&b&l► &f40x Золотое яблоко"
+      - "&b&l► &f8x Зелье невидимости &7(8 мин)"
 
   fisher_advanced11:
-    display_name: "&3☯ Океанский титан"
-    description: "&7Поймай 8000 рыб. Ты — легенда."
+    display_name: "&3🔱 Морской бог"
+    description: "&7Поймай 970 рыб. Нептун нервно курит в сторонке."
     icon: PUFFERFISH
     category: FISHER
     order: 18
     slot: 31
     requires: "fisher_advanced10"
     objective_type: FISH
-    amount: 8000
+    amount: 970
     reward_kit: fisher_advanced11
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность V, Импульс IV, Молния III)"
-      - "&b&l► &f64x Золотое яблоко"
-      - "&b&l► &f8x Зелье невидимости &7(8 мин)"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Починка)"
+      - "&b&l► &f44x Золотое яблоко"
+      - "&b&l► &f10x Зелье невидимости &7(8 мин)"
 
   fisher_advanced12:
-    display_name: "&9☯ Водный бог"
-    description: "&7Поймай 9000 рыб. Ты не человек."
+    display_name: "&9🌊 Цунами"
+    description: "&7Поймай 1070 рыб. Когда ты рядом — рыба сама прыгает в инвентарь."
     icon: FISHING_ROD
     category: FISHER
     order: 19
     slot: 32
     requires: "fisher_advanced11"
     objective_type: FISH
-    amount: 9000
+    amount: 1070
     reward_kit: fisher_advanced12
     reward_display:
-      - "&b&l► &f1x Удочка &7(все чары максимальные, Починка, Прочность III)"
-      - "&b&l► &f1x Броня &7(Защита V, Дыхание III, Починка)"
-      - "&b&l► &f32x Золотое яблоко"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Прочность III, Починка)"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Починка)"
+      - "&b&l► &f48x Золотое яблоко"
 
   fisher_advanced13:
-    display_name: "&b☯ Бессмертный рыбак"
-    description: "&7Поймай 10000 рыб. Время не властно."
+    display_name: "&b🐚 Хранитель раковин"
+    description: "&7Поймай 1170 рыб. У тебя коллекция редких раковин."
     icon: NAUTILUS_SHELL
     category: FISHER
     order: 20
     slot: 33
     requires: "fisher_advanced12"
     objective_type: FISH
-    amount: 10000
+    amount: 1170
     reward_kit: fisher_advanced13
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность VI, Импульс IV, Молния III, Починка)"
-      - "&b&l► &f64x Золотое яблоко"
-      - "&b&l► &f16x Зелье водного дыхания"
+      - "&b&l► &f32x Жемчуг наутилуса"
+      - "&b&l► &f52x Золотое яблоко"
+      - "&b&l► &f12x Зелье водного дыхания"
 
   fisher_advanced14:
-    display_name: "&3☯ Космический улов"
-    description: "&7Поймай 12000 рыб. Море — твоя стихия."
+    display_name: "&3🏴‍☠️ Морской пират"
+    description: "&7Поймай 1280 рыб. Грабишь всё что плывёт."
     icon: COD_BUCKET
     category: FISHER
     order: 21
     slot: 34
     requires: "fisher_advanced13"
     objective_type: FISH
-    amount: 12000
+    amount: 1280
     reward_kit: fisher_advanced14
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря VII, Приманка VI, Починка, Прочность III)"
-      - "&b&l► &f1x Шлем &7(Дыхание IV, Водосродство, Защита IV)"
-      - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Прочность III, Починка)"
+      - "&b&l► &f56x Золотое яблоко"
+      - "&b&l► &f12x Зелье невидимости &7(8 мин)"
 
   fisher_advanced15:
-    display_name: "&9☯ Абсолютный рыбак"
-    description: "&7Поймай 14000 рыб. Ты — само море."
+    display_name: "&9🌊 Покоритель океана"
+    description: "&7Поймай 1400 рыб. Океан тебе больше не помеха."
     icon: COD
     category: FISHER
     order: 22
     slot: 37
     requires: "fisher_advanced14"
     objective_type: FISH
-    amount: 14000
+    amount: 1400
     reward_kit: fisher_advanced15
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность VI, Импульс V, Молния IV, Починка)"
-      - "&b&l► &f1x Броня &7(Защита V, Дыхание IV, Починка)"
-      - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f1x Полная броня &7(Защита IV, Дыхание III, Водосродство, Шипы II, Починка)"
+      - "&b&l► &f60x Золотое яблоко"
+      - "&b&l► &f12x Зелье силы II"
 
   fisher_advanced16:
-    display_name: "&b☯ Глубинный бог"
-    description: "&7Поймай 16000 рыб. Ты вездесущ."
+    display_name: "&b🦑 Кальмар-убийца"
+    description: "&7Поймай 1530 рыб. Даже кальмары разбегаются."
     icon: SALMON
     category: FISHER
     order: 23
     slot: 38
     requires: "fisher_advanced15"
     objective_type: FISH
-    amount: 16000
+    amount: 1530
     reward_kit: fisher_advanced16
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря VII, Приманка VI, Починка, Прочность III)"
-      - "&b&l► &f128x Варёная рыба"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Прочность III, Починка)"
       - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f16x Зелье невидимости &7(8 мин)"
 
   fisher_advanced17:
-    display_name: "&3☯ Владыка волн"
-    description: "&7Поймай 18000 рыб. Ты — хозяин."
+    display_name: "&3🗺 Исследователь глубин"
+    description: "&7Поймай 1660 рыб. Ты изучил каждый угол океана."
     icon: TROPICAL_FISH
     category: FISHER
     order: 24
     slot: 39
     requires: "fisher_advanced16"
     objective_type: FISH
-    amount: 18000
+    amount: 1660
     reward_kit: fisher_advanced17
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность VII, Импульс V, Молния IV, Починка)"
-      - "&b&l► &f1x Шлем &7(Дыхание IV, Водосродство, Защита V)"
-      - "&b&l► &f128x Золотое яблоко"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Прочность III, Починка)"
+      - "&b&l► &f40x Жемчуг наутилуса"
+      - "&b&l► &f64x Золотое яблоко"
 
   fisher_advanced18:
-    display_name: "&9☯ Повелитель глубин"
-    description: "&7Поймай 20000 рыб. Ты — океан."
+    display_name: "&9🐠 Рыбный барон"
+    description: "&7Поймай 1800 рыб. У тебя монополия на рыбный рынок."
     icon: PUFFERFISH
     category: FISHER
     order: 25
     slot: 40
     requires: "fisher_advanced17"
     objective_type: FISH
-    amount: 20000
+    amount: 1800
     reward_kit: fisher_advanced18
     reward_display:
-      - "&b&l► &f1x Удочка &7(все чары максимальные, Починка, Прочность III)"
-      - "&b&l► &f1x Броня &7(Защита V, Дыхание IV, Починка)"
-      - "&b&l► &f128x Золотое яблоко"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Прочность III, Починка)"
+      - "&b&l► &f1x Полная броня &7(Защита IV, Дыхание III, Водосродство, Шипы III, Починка)"
+      - "&b&l► &f64x Золотое яблоко"
 
   fisher_advanced19:
-    display_name: "&b☯ Бессмертный океан"
-    description: "&7Поймай 22000 рыб. Ты — вечен."
+    display_name: "&b⚡ Молния в воде"
+    description: "&7Поймай 1950 рыб. Ты быстрее любой рыбы."
     icon: FISHING_ROD
     category: FISHER
     order: 26
     slot: 41
     requires: "fisher_advanced18"
     objective_type: FISH
-    amount: 22000
+    amount: 1950
     reward_kit: fisher_advanced19
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность VII, Импульс VI, Молния V, Починка)"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Прочность III, Починка)"
       - "&b&l► &f64x Жемчуг наутилуса"
-      - "&b&l► &f128x Золотое яблоко"
+      - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f16x Зелье силы II"
 
   fisher_advanced20:
-    display_name: "&3☯ Космический рыбак"
-    description: "&7Поймай 25000 рыб. Ты — всё."
+    display_name: "&3🌀 Вечный поток"
+    description: "&7Поймай 2100 рыб. Удочка стала частью тебя."
     icon: NAUTILUS_SHELL
     category: FISHER
     order: 27
     slot: 42
     requires: "fisher_advanced19"
     objective_type: FISH
-    amount: 25000
+    amount: 2100
     reward_kit: fisher_advanced20
     reward_display:
-      - "&b&l► &f1x Удочка &7(Удача моря VIII, Приманка VII, Починка, Прочность III)"
-      - "&b&l► &f1x Шлем &7(Дыхание IV, Водосродство, Защита V)"
-      - "&b&l► &f256x Золотое яблоко"
+      - "&b&l► &f1x Удочка &7(Удача моря III, Приманка III, Прочность III, Починка)"
+      - "&b&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Прочность III, Починка)"
+      - "&b&l► &f64x Золотое яблоко"
+      - "&b&l► &f16x Зелье невидимости &7(8 мин)"
 
   fisher_advanced21:
-    display_name: "&d☯ Легенда легенд"
-    description: "&7Поймай 30000 рыб. Ты — рыба."
+    display_name: "&d✦ Легенда океана"
+    description: "&7Поймай 2300 рыб. О тебе слагают легенды у причала."
     icon: COD_BUCKET
     category: FISHER
     order: 28
     slot: 43
     requires: "fisher_advanced20"
     objective_type: FISH
-    amount: 30000
+    amount: 2300
     reward_kit: fisher_advanced21
     reward_display:
-      - "&b&l► &f1x Тризуб &7(Лояльность VIII, Импульс VI, Молния V, Починка)"
-      - "&b&l► &f1x Броня &7(Защита V, Дыхание IV, Починка, Прочность III)"
-      - "&b&l► &f512x Золотое яблоко"
-      - "&b&l► &f16x Зелье невидимости &7(8 мин)"
+      - "&d&l► &f1x Тризуб &7(Лояльность III, Импульс III, Молния I, Прочность III, Починка)"
+      - "&d&l► &f1x Полная броня &7(Защита IV, Дыхание III, Водосродство, Шипы III, Починка)"
+      - "&d&l► &f64x Золотое яблоко"
+      - "&d&l► &f16x Зелье невидимости &7(8 мин)"
+      - "&d&l► &f32x Зелье силы II"
 
 # ==========================================================================
 # 🌲  ЛИНИЯ: ЛЕСНИК (category: LUMBERJACK) — 28 квестов

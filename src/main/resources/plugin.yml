@@ -1,8 +1,8 @@
 name: NanoQuests
-version: 1.0.0
+version: 2.2.0
 main: org.nanodev.nanoquests.NanoQuests
 api-version: 1.16
-description: Quest system - 30 quests, 4 lines, GUI menu
+description: Quest system - 112 quests, 4 lines, GUI menu, skip system
 authors: [nanodev]
 
 commands:
@@ -35,15 +35,93 @@ commands:
     permission: nanoquests.use
     aliases: [qwood]
 
+  questskip:
+    description: Skip a quest in a chain (requires permission)
+    usage: /questskip <chain> <order>
+    permission: nanoquests.use
+
   questadmin:
     description: Admin commands
-    usage: /questadmin <reload|reset <player>>
+    usage: /questadmin <reload|reset <player>|skips <player> <cat> <n>>
     permission: nanoquests.admin
 
 permissions:
   nanoquests.use:
     description: Use quest commands and menu
     default: true
+
   nanoquests.admin:
-    description: Admin access
+    description: Admin access to /questadmin
     default: op
+
+  # ── Лимиты скипов ──────────────────────────────────────────────────────
+  # Глобальные (для всех цепочек сразу):
+  #   nanoquests.skip.1   — до 1 скипа в каждой цепочке
+  #   nanoquests.skip.3   — до 3 скипов в каждой цепочке
+  #   nanoquests.skip.unlimited — безлимит во всех цепочках
+  #
+  # Для конкретной цепочки:
+  #   nanoquests.skip.combat.2        — 2 скипа только в COMBAT
+  #   nanoquests.skip.miner.5         — 5 скипов только в MINER
+  #   nanoquests.skip.fisher.unlimited
+  #   nanoquests.skip.lumberjack.unlimited
+  # ───────────────────────────────────────────────────────────────────────
+
+  nanoquests.skip.1:
+    description: "1 skip per chain"
+    default: false
+  nanoquests.skip.2:
+    description: "2 skips per chain"
+    default: false
+  nanoquests.skip.3:
+    description: "3 skips per chain"
+    default: false
+  nanoquests.skip.5:
+    description: "5 skips per chain"
+    default: false
+  nanoquests.skip.10:
+    description: "10 skips per chain"
+    default: false
+  nanoquests.skip.unlimited:
+    description: "Unlimited skips in all chains"
+    default: false
+
+  nanoquests.skip.combat.1:
+    description: "1 skip in COMBAT chain"
+    default: false
+  nanoquests.skip.combat.3:
+    description: "3 skips in COMBAT chain"
+    default: false
+  nanoquests.skip.combat.unlimited:
+    description: "Unlimited skips in COMBAT chain"
+    default: false
+
+  nanoquests.skip.miner.1:
+    description: "1 skip in MINER chain"
+    default: false
+  nanoquests.skip.miner.3:
+    description: "3 skips in MINER chain"
+    default: false
+  nanoquests.skip.miner.unlimited:
+    description: "Unlimited skips in MINER chain"
+    default: false
+
+  nanoquests.skip.fisher.1:
+    description: "1 skip in FISHER chain"
+    default: false
+  nanoquests.skip.fisher.3:
+    description: "3 skips in FISHER chain"
+    default: false
+  nanoquests.skip.fisher.unlimited:
+    description: "Unlimited skips in FISHER chain"
+    default: false
+
+  nanoquests.skip.lumberjack.1:
+    description: "1 skip in LUMBERJACK chain"
+    default: false
+  nanoquests.skip.lumberjack.3:
+    description: "3 skips in LUMBERJACK chain"
+    default: false
+  nanoquests.skip.lumberjack.unlimited:
+    description: "Unlimited skips in LUMBERJACK chain"
+    default: false

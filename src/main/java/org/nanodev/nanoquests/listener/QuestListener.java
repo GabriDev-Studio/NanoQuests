@@ -8,7 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -44,9 +47,43 @@ public class QuestListener implements Listener {
     public void onCraft(CraftItemEvent e) {
         if (!(e.getWhoClicked() instanceof Player)) return;
         if (e.getRecipe() == null || e.getRecipe().getResult() == null) return;
+
+        ItemStack result = e.getRecipe().getResult();
+        int craftedAmount;
+
+        if (e.isShiftClick()) {
+            // При шифт-клике крафтится максимально возможное количество.
+            // Считаем сколько раз можно повторить рецепт по ингредиентам в сетке.
+            craftedAmount = calcShiftCraftAmount(e.getInventory(), result.getAmount());
+        } else {
+            // Обычный клик — один результат
+            craftedAmount = result.getAmount();
+        }
+
+        if (craftedAmount <= 0) craftedAmount = result.getAmount();
+
         plugin.getQuestManager().handleProgress(
                 (Player) e.getWhoClicked(), Quest.ObjectiveType.CRAFT_ITEM,
-                e.getRecipe().getResult().getType(), 1);
+                result.getType(), craftedAmount);
+    }
+
+    /**
+     * Считает реальное количество скрафченного при шифт-клике.
+     * Находит минимальное количество каждого ингредиента в сетке,
+     * умножает на размер стака результата.
+     */
+    private int calcShiftCraftAmount(CraftingInventory inv, int resultStackSize) {
+        // matrix() — слоты 0..8 (слот 0 = результат, 1..9 = сетка 3x3)
+        // getMatrix() возвращает только сетку без слота результата
+        ItemStack[] matrix = inv.getMatrix();
+        int minIngredient = Integer.MAX_VALUE;
+        for (ItemStack ingredient : matrix) {
+            if (ingredient != null && ingredient.getType() != org.bukkit.Material.AIR) {
+                minIngredient = Math.min(minIngredient, ingredient.getAmount());
+            }
+        }
+        if (minIngredient == Integer.MAX_VALUE) return resultStackSize;
+        return minIngredient * resultStackSize;
     }
 
     @SuppressWarnings("deprecation")

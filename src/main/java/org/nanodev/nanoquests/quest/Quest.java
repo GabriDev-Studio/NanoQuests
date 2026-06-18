@@ -20,12 +20,10 @@ public class Quest {
     private final int amount;
     private final String rewardKit;
     private final List<String> rewardDisplay;
-    // -1 = авто, >=0 = фиксированный слот
     private final int fixedSlot;
-    // null = нет требования; id квеста который должен быть выполнен перед этим
     private final String requires;
 
-    private int order;
+    private int order = 99;
     private EntityType mob;
     private Material targetMaterial;
 
@@ -50,20 +48,22 @@ public class Quest {
         return data.isCompleted(requires);
     }
 
-    public String getId() { return id; }
-    public int getOrder() { return order; }
-    public String getDisplayName() { return displayName; }
-    public String getDescription() { return description; }
-    public Material getIcon() { return icon; }
-    public String getCategory() { return category; }
+    public String getId()              { return id; }
+    public String getDisplayName()     { return displayName; }
+    public String getDescription()     { return description; }
+    public Material getIcon()          { return icon; }
+    public String getCategory()        { return category; }
     public ObjectiveType getObjectiveType() { return objectiveType; }
-    public int getAmount() { return amount; }
-    public String getRewardKit() { return rewardKit; }
+    public int getAmount()             { return amount; }
+    public String getRewardKit()       { return rewardKit; }
     public List<String> getRewardDisplay() { return rewardDisplay; }
-    public int getFixedSlot() { return fixedSlot; }
-    public String getRequires() { return requires; }
-    public EntityType getMob() { return mob; }
-    public Material getTargetMaterial() { return targetMaterial; }
-    public void setMob(EntityType mob) { this.mob = mob; }
+    public int getFixedSlot()          { return fixedSlot; }
+    public String getRequires()        { return requires; }
+    public int getOrder()              { return order; }
+    public EntityType getMob()         { return mob; }
+    public Material getTargetMaterial(){ return targetMaterial; }
+
+    public void setOrder(int order)             { this.order = order; }
+    public void setMob(EntityType mob)          { this.mob = mob; }
     public void setTargetMaterial(Material mat) { this.targetMaterial = mat; }
 }

@@ -139,13 +139,16 @@ public class QuestMenu {
             37,38,39,40,41,42,43
         };
 
+        // алиас команды для цепочки (для подсказки скипа)
+        String skipAlias = categoryToSkipAlias(category);
+
         // Проходим по слотам, пока есть квесты
         for (int i = 0; i < questSlots.length && i < allQuests.size(); i++) {
             int slot = questSlots[i];
             Quest q = allQuests.get(i);
             if (q.isUnlocked(data)) {
                 // Разблокирован — ставим иконку квеста
-                inv.setItem(slot, buildQuestItem(q, data));
+                inv.setItem(slot, buildQuestItem(q, data, player, skipAlias));
             } else {
                 // Заблокирован — барьер с пояснением
                 ItemStack barrier = make(Material.BARRIER,
@@ -164,7 +167,8 @@ public class QuestMenu {
     }
 
     // ===================== ПОСТРОИТЬ ИКОНКУ КВЕСТА =====================
-    private ItemStack buildQuestItem(Quest q, PlayerQuestData data) {
+    private ItemStack buildQuestItem(Quest q, PlayerQuestData data,
+                                     Player player, String skipAlias) {
         boolean isDone = data.isCompleted(q.getId());
         int current = Math.min(data.getProgress(q.getId()), q.getAmount());
 
@@ -178,14 +182,49 @@ public class QuestMenu {
         lore.add(c("&aНаграды:"));
         for (String r : q.getRewardDisplay()) lore.add(r);
         lore.add("");
+
         if (isDone) {
             lore.add(c("&a&l✔ ВЫПОЛНЕНО"));
         } else {
             lore.add(c("&e▸ В процессе..."));
+            lore.add("");
+
+            // ── Блок подсказки скипа ──────────────────────────────────
+            int limit  = plugin.getQuestManager().getSkipLimit(player, q.getCategory());
+            int used   = data.getSkipsUsed(q.getCategory());
+
+            if (limit == 0) {
+                // нет прав на скип — не показываем ничего
+            } else if (limit < 0) {
+                // безлимит
+                lore.add(c("&8┌ &bСкип доступен &8(безлимит)"));
+                lore.add(c("&8└ &7/questskip &b" + skipAlias + " &e" + q.getOrder()));
+            } else {
+                int remaining = limit - used;
+                if (remaining > 0) {
+                    lore.add(c("&8┌ &bСкип доступен &8(&e" + remaining + " &7из &e" + limit + "&8)"));
+                    lore.add(c("&8└ &7/questskip &b" + skipAlias + " &e" + q.getOrder()));
+                } else {
+                    lore.add(c("&8┌ &cСкипы исчерпаны &8(&e0 &7из &e" + limit + "&8)"));
+                    lore.add(c("&8└ &7Лимит скипов для этой линии закончился"));
+                }
+            }
+            // ──────────────────────────────────────────────────────────
         }
 
         Material icon = isDone ? Material.LIME_DYE : q.getIcon();
         return make(icon, q.getDisplayName(), lore);
+    }
+
+    /** Возвращает короткий алиас цепочки для подсказки команды */
+    private String categoryToSkipAlias(String category) {
+        switch (category.toUpperCase()) {
+            case "COMBAT":     return "combat";
+            case "MINER":      return "mine";
+            case "FISHER":     return "fish";
+            case "LUMBERJACK": return "wood";
+            default:           return category.toLowerCase();
+        }
     }
 
     // ===================== УТИЛИТЫ =====================

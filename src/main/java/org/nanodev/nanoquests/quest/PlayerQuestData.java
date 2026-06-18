@@ -9,6 +9,8 @@ public class PlayerQuestData {
 
     private final Map<String, Integer> progress = new HashMap<>();
     private final Set<String> completed = new HashSet<>();
+    // сколько скипов игрок уже использовал в каждой категории
+    private final Map<String, Integer> skipsUsed = new HashMap<>();
 
     public int getProgress(String questId) {
         return progress.getOrDefault(questId, 0);
@@ -30,11 +32,20 @@ public class PlayerQuestData {
         completed.add(questId);
     }
 
-    public Set<String> getCompleted() {
-        return completed;
+    // ---------- скипы ----------
+    public int getSkipsUsed(String category) {
+        return skipsUsed.getOrDefault(category, 0);
     }
-    
-    public Map<String, Integer> getProgressMap() {
-        return progress;
+
+    public void addSkip(String category) {
+        skipsUsed.merge(category, 1, Integer::sum);
     }
+
+    public void setSkipsUsed(String category, int amount) {
+        skipsUsed.put(category, amount);
+    }
+
+    public Set<String> getCompleted()        { return completed; }
+    public Map<String, Integer> getProgressMap() { return progress; }
+    public Map<String, Integer> getSkipsUsedMap() { return skipsUsed; }
 }

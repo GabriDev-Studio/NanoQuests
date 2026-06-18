@@ -6,7 +6,7 @@ messages:
 # Команда выдачи кита через консоль
 # EssentialsX: "kit give {player} {kit}"
 # CMI:         "cmi kit {player} {kit}"
-kit_command: "kit give {player} {kit}"
+kit_command: "kit give {kit} {player}"
 
 categories:
   COMBAT:
